@@ -72,6 +72,95 @@
         },
       }
     </script>
+    <script>
+        // Authentication Check for Protected Pages
+        class AuthGuard {
+            constructor() {
+                this.checkAuthentication();
+            }
+
+            checkAuthentication() {
+                const authData = localStorage.getItem('system_anatomy_auth');
+                
+                if (!authData) {
+                    // No authentication data, redirect to login
+                    this.redirectToLogin();
+                    return;
+                }
+
+                const user = JSON.parse(authData);
+                
+                // Check if session is still valid (24 hours)
+                if (Date.now() - user.timestamp > 24 * 60 * 60 * 1000) {
+                    // Session expired
+                    localStorage.removeItem('system_anatomy_auth');
+                    this.redirectToLogin();
+                    return;
+                }
+
+                // User is authenticated, update UI with user info
+                this.updateUserInterface(user);
+            }
+
+            redirectToLogin() {
+                // Store current page for redirect after login
+                sessionStorage.setItem('redirect_after_login', window.location.pathname);
+                window.location.href = 'login.html';
+            }
+
+            updateUserInterface(user) {
+                // Update user profile information in the UI
+                const profileImg = document.querySelector('img[alt="Client Profile"]');
+                if (profileImg) {
+                    // In a real app, you'd use the user's actual profile image
+                    profileImg.alt = `${user.name} - ${user.provider}`;
+                }
+
+                // Add logout functionality
+                this.addLogoutButton();
+            }
+
+            addLogoutButton() {
+                // Find the settings button and add logout functionality
+                const settingsBtn = document.querySelector('button:has(.material-symbols-outlined[data-icon="settings"])');
+                if (settingsBtn) {
+                    settingsBtn.addEventListener('click', () => {
+                        this.showLogoutModal();
+                    });
+                }
+            }
+
+            showLogoutModal() {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50';
+                modal.innerHTML = `
+                    <div class="bg-surface-container p-6 rounded-xl border border-outline-variant/20 max-w-sm mx-4">
+                        <h3 class="text-lg font-bold mb-4">Confirm Logout</h3>
+                        <p class="text-on-surface-variant mb-6">Are you sure you want to log out of System Anatomy?</p>
+                        <div class="flex gap-3">
+                            <button class="flex-1 py-2 px-4 bg-neutral-700 hover:bg-neutral-600 rounded-lg transition-colors" onclick="this.closest('.fixed').remove()">
+                                Cancel
+                            </button>
+                            <button class="flex-1 py-2 px-4 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-colors" onclick="window.authGuard.logout()">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+
+            logout() {
+                localStorage.removeItem('system_anatomy_auth');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Initialize auth guard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.authGuard = new AuthGuard();
+        });
+    </script>
 <style>
         body {
             background-color: #0e0e0e;
@@ -106,19 +195,19 @@
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-3 text-[#bcc7de] hover:bg-white/5 font-['Inter'] text-sm tracking-tight hover:text-white transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-3 text-[#bcc7de] hover:bg-white/5 font-['Inter'] text-sm tracking-tight hover:text-white transition-all" href="project-health.html">
 <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
 <span>Project Health</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-3 text-[#bcc7de] hover:bg-white/5 font-['Inter'] text-sm tracking-tight hover:text-white transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-3 text-[#bcc7de] hover:bg-white/5 font-['Inter'] text-sm tracking-tight hover:text-white transition-all" href="milestones.html">
 <span class="material-symbols-outlined" data-icon="altitude">altitude</span>
 <span>Milestones</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-3 text-[#bcc7de] hover:bg-white/5 font-['Inter'] text-sm tracking-tight hover:text-white transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-3 text-[#bcc7de] hover:bg-white/5 font-['Inter'] text-sm tracking-tight hover:text-white transition-all" href="architecture.html">
 <span class="material-symbols-outlined" data-icon="architecture">architecture</span>
 <span>Architecture</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-3 text-[#bcc7de] hover:bg-white/5 font-['Inter'] text-sm tracking-tight hover:text-white transition-all" href="#">
+<a class="flex items-center gap-3 px-3 py-3 text-[#bcc7de] hover:bg-white/5 font-['Inter'] text-sm tracking-tight hover:text-white transition-all" href="global-nodes.html">
 <span class="material-symbols-outlined" data-icon="hub">hub</span>
 <span>Global Nodes</span>
 </a>
@@ -143,9 +232,9 @@
 </div>
 <div class="flex items-center gap-8">
 <nav class="hidden md:flex items-center gap-6">
-<a class="text-[#00f5ff] border-b border-[#00f5ff] pb-1 font-['Inter'] text-sm font-medium tracking-tight" href="#">Solutions</a>
-<a class="text-[#bcc7de] hover:text-white transition-colors font-['Inter'] text-sm font-medium tracking-tight" href="#">Methodology</a>
-<a class="text-[#bcc7de] hover:text-white transition-colors font-['Inter'] text-sm font-medium tracking-tight" href="#">Case Studies</a>
+<a class="text-[#00f5ff] border-b border-[#00f5ff] pb-1 font-['Inter'] text-sm font-medium tracking-tight" href="solutions.html">Solutions</a>
+<a class="text-[#bcc7de] hover:text-white transition-colors font-['Inter'] text-sm font-medium tracking-tight" href="methodology.html">Methodology</a>
+<a class="text-[#bcc7de] hover:text-white transition-colors font-['Inter'] text-sm font-medium tracking-tight" href="case-studies.html">Case Studies</a>
 </nav>
 <button class="bg-[#00f5ff] text-[#003739] font-bold text-xs uppercase tracking-widest px-6 py-2.5 rounded-sm hover:brightness-110 active:scale-95 transition-all">
                     Request an Audit
@@ -311,10 +400,10 @@
 <span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#bcc7de] transition-colors">© 2024 SYSTEM ANATOMY. ARCHITECTURAL PRECISION.</span>
 </div>
 <div class="flex gap-8">
-<a class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#00f5ff] transition-colors" href="#">Privacy Policy</a>
-<a class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#00f5ff] transition-colors" href="#">Terms of Service</a>
-<a class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#00f5ff] transition-colors" href="#">Security Architecture</a>
-<a class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#00f5ff] transition-colors" href="#">Global Nodes</a>
+<a class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#00f5ff] transition-colors" href="privacy.html">Privacy Policy</a>
+<a class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#00f5ff] transition-colors" href="terms.html">Terms of Service</a>
+<a class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#00f5ff] transition-colors" href="security-architecture.html">Security Architecture</a>
+<a class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-[#393939] hover:text-[#00f5ff] transition-colors" href="global-nodes.html">Global Nodes</a>
 </div>
 </footer>
 </div>

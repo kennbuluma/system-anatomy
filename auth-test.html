@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication Test</title>
+</head>
+<body>
+    <h1>System Anatomy Authentication Test</h1>
+    <p>This page tests the authentication workflow implementation.</p>
+
+    <h2>Test Scenarios:</h2>
+    <ul>
+        <li><a href="login.html">1. Visit Login Page</a> - Should show authentication options</li>
+        <li><a href="command-center.html">2. Try Direct Access to Command Center</a> - Should redirect to login if not authenticated</li>
+        <li><a href="login.html" onclick="testAuthFlow()">3. Test Authentication Flow</a> - Use the login buttons</li>
+    </ul>
+
+    <h2>Authentication Methods Implemented:</h2>
+    <ul>
+        <li>✅ Google Workspace SSO (simulated)</li>
+        <li>✅ Microsoft Entra SSO (simulated)</li>
+        <li>✅ Email Link Authentication (simulated)</li>
+        <li>✅ Session Management (24-hour expiry)</li>
+        <li>✅ Protected Route Guards</li>
+        <li>✅ Post-Login Redirects</li>
+    </ul>
+
+    <h2>Security Features:</h2>
+    <ul>
+        <li>🔒 No password storage (passwordless design)</li>
+        <li>🔒 OAuth-based SSO integration</li>
+        <li>🔒 Email link with secure tokens (simulated)</li>
+        <li>🔒 Session-based authentication</li>
+        <li>🔒 Automatic logout on session expiry</li>
+    </ul>
+
+    <script>
+        function testAuthFlow() {
+            console.log('Testing authentication flow...');
+            // Clear any existing auth data for testing
+            localStorage.removeItem('system_anatomy_auth');
+            alert('Authentication data cleared. Now test the login flow.');
+        }
+
+        // Check current auth state
+        const authData = localStorage.getItem('system_anatomy_auth');
+        if (authData) {
+            const user = JSON.parse(authData);
+            document.body.innerHTML += `<p style="color: green;">Currently authenticated as: ${user.name} (${user.provider})</p>`;
+        } else {
+            document.body.innerHTML += `<p style="color: red;">Not authenticated</p>`;
+        }
+    </script>
+</body>
+</html>

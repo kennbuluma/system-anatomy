@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Security Architecture | System Anatomy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #131313;
+            color: #e5e2e1;
+        }
+        .mono {
+            font-family: 'JetBrains_Mono', monospace;
+        }
+        .blueprint-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 245, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 245, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-card {
+            background: rgba(53, 53, 52, 0.2);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#131313",
+                        "surface-container": "#201f1f",
+                        "primary-container": "#00f5ff",
+                        "on-surface": "#e5e2e1",
+                        "on-surface-variant": "#b9caca",
+                        "outline-variant": "#3a494a"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-neutral-950/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+        <div class="flex justify-between items-center px-8 h-16 w-full max-w-[1920px] mx-auto">
+            <div class="text-xl font-black tracking-tighter text-cyan-400 uppercase">
+                System Anatomy
+            </div>
+            <div class="hidden md:flex items-center space-x-8 font-sans text-sm tracking-tight font-medium uppercase">
+                <a class="text-neutral-400 hover:text-neutral-100 transition-colors" href="solutions.html">Solutions</a>
+                <a class="text-neutral-400 hover:text-neutral-100 transition-colors" href="architecture.html">Architecture</a>
+                <a class="text-neutral-400 hover:text-neutral-100 transition-colors" href="case-studies.html">Case Studies</a>
+                <a class="text-neutral-400 hover:text-neutral-100 transition-colors" href="command-center.html">Command Center</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <button class="bg-gradient-to-br from-primary-container to-cyan-600 text-black px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all duration-300 ease-out active:scale-95" onclick="window.location.href='login.html'">
+                    Secure Login
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section class="min-h-[50vh] flex items-center blueprint-grid">
+            <div class="container mx-auto px-8 py-32">
+                <div class="max-w-4xl mx-auto text-center space-y-8">
+                    <div class="inline-flex items-center space-x-3 bg-surface-container px-4 py-2 rounded-full border border-outline-variant/30">
+                        <span class="material-symbols-outlined text-cyan-400" data-icon="security">security</span>
+                        <span class="mono text-[10px] tracking-[0.2em] uppercase text-secondary">Security Architecture</span>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9]">
+                        SECURITY <span class="text-primary-container">BY DESIGN</span>
+                    </h1>
+                    <p class="text-xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                        Enterprise-grade security architecture principles, compliance frameworks, and threat mitigation strategies for modern systems.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Framework -->
+        <section class="py-32 bg-neutral-950">
+            <div class="container mx-auto px-8">
+                <div class="max-w-6xl mx-auto">
+                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter mb-16 text-center">
+                        SECURITY <span class="text-primary-container">FRAMEWORK</span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Defense in Depth -->
+                        <div class="glass-card p-8 rounded-xl border border-outline-variant/20">
+                            <div class="flex items-start gap-6">
+                                <div class="w-16 h-16 bg-red-900/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-red-400 text-2xl" data-icon="shield">shield</span>
+                                </div>
+                                <div class="space-y-4">
+                                    <h3 class="text-2xl font-bold">Defense in Depth</h3>
+                                    <p class="text-on-surface-variant">
+                                        Multiple layers of security controls ensuring that if one layer fails, others provide protection. Network, application, and data security work together.
+                                    </p>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Network segmentation</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Application firewalls</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Data encryption</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Zero Trust -->
+                        <div class="glass-card p-8 rounded-xl border border-outline-variant/20">
+                            <div class="flex items-start gap-6">
+                                <div class="w-16 h-16 bg-blue-900/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-blue-400 text-2xl" data-icon="verified_user">verified_user</span>
+                                </div>
+                                <div class="space-y-4">
+                                    <h3 class="text-2xl font-bold">Zero Trust Architecture</h3>
+                                    <p class="text-on-surface-variant">
+                                        Never trust, always verify. Every access request is authenticated and authorized, regardless of location or network.
+                                    </p>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Continuous authentication</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Micro-segmentation</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check">check</span>
+                                            <span class="text-sm">Least privilege access</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secure by Default -->
+                        <div class="glass-card p-8 rounded-xl border border-outline-variant/20">
+                            <div class="flex items-start gap-6">
+                                <div class="w-16 h-16 bg-green-900/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-green-400 text-2xl" data-icon="lock">lock</span>
+                                </div>
+                                <div class="space-y-4">
+                                    <h3 class="text-2xl font-bold">Secure by Default</h3>
+                                    <p class="text-on-surface-variant">
+                                        Security features enabled by default with minimal configuration required. Security is not optional but built into the foundation.
+                                    </p>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Automatic encryption</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Secure defaults</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Fail-safe mechanisms</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Continuous Monitoring -->
+                        <div class="glass-card p-8 rounded-xl border border-outline-variant/20">
+                            <div class="flex items-start gap-6">
+                                <div class="w-16 h-16 bg-purple-900/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-purple-400 text-2xl" data-icon="monitoring">monitoring</span>
+                                </div>
+                                <div class="space-y-4">
+                                    <h3 class="text-2xl font-bold">Continuous Monitoring</h3>
+                                    <p class="text-on-surface-variant">
+                                        Real-time security monitoring with automated threat detection, incident response, and compliance reporting.
+                                    </p>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">SIEM integration</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Automated alerts</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-green-400 text-sm" data-icon="check">check</span>
+                                            <span class="text-sm">Threat intelligence</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Controls -->
+        <section class="py-32 blueprint-grid">
+            <div class="container mx-auto px-8">
+                <div class="max-w-4xl mx-auto text-center space-y-16">
+                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter">
+                        SECURITY <span class="text-primary-container">CONTROLS</span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="text-left space-y-6">
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary-container text-2xl" data-icon="https">https</span>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Transport Security</h4>
+                                    <p class="text-on-surface-variant">TLS 1.3 encryption for all data in transit with perfect forward secrecy and certificate pinning.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary-container text-2xl" data-icon="storage">storage</span>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Data Protection</h4>
+                                    <p class="text-on-surface-variant">AES-256 encryption at rest with key rotation, envelope encryption, and secure key management.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary-container text-2xl" data-icon="fingerprint">fingerprint</span>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Identity Management</h4>
+                                    <p class="text-on-surface-variant">Multi-factor authentication, role-based access control, and session management with JWT tokens.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-left space-y-6">
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary-container text-2xl" data-icon="bug_report">bug_report</span>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Vulnerability Management</h4>
+                                    <p class="text-on-surface-variant">Automated scanning, patch management, and secure development practices with threat modeling.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary-container text-2xl" data-icon="policy">policy</span>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Compliance Frameworks</h4>
+                                    <p class="text-on-surface-variant">SOC 2, ISO 27001, GDPR, HIPAA compliance with automated auditing and reporting.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary-container text-2xl" data-icon="emergency">emergency</span>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Incident Response</h4>
+                                    <p class="text-on-surface-variant">24/7 monitoring, automated incident detection, and coordinated response with forensic analysis.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compliance Standards -->
+        <section class="py-32 bg-neutral-950">
+            <div class="container mx-auto px-8">
+                <div class="max-w-4xl mx-auto text-center space-y-16">
+                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter">
+                        COMPLIANCE <span class="text-primary-container">STANDARDS</span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="glass-card p-6 rounded-xl border border-outline-variant/20">
+                            <div class="w-12 h-12 bg-blue-900/20 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                                <span class="material-symbols-outlined text-blue-400" data-icon="verified">verified</span>
+                            </div>
+                            <h4 class="text-lg font-bold mb-2">SOC 2 Type II</h4>
+                            <p class="text-sm text-on-surface-variant">
+                                Security, availability, and confidentiality controls with independent audit and certification.
+                            </p>
+                        </div>
+                        <div class="glass-card p-6 rounded-xl border border-outline-variant/20">
+                            <div class="w-12 h-12 bg-green-900/20 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                                <span class="material-symbols-outlined text-green-400" data-icon="gpp_good">gpp_good</span>
+                            </div>
+                            <h4 class="text-lg font-bold mb-2">ISO 27001</h4>
+                            <p class="text-sm text-on-surface-variant">
+                                International standard for information security management systems and risk management.
+                            </p>
+                        </div>
+                        <div class="glass-card p-6 rounded-xl border border-outline-variant/20">
+                            <div class="w-12 h-12 bg-purple-900/20 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                                <span class="material-symbols-outlined text-purple-400" data-icon="privacy_tip">privacy_tip</span>
+                            </div>
+                            <h4 class="text-lg font-bold mb-2">GDPR & Privacy</h4>
+                            <p class="text-sm text-on-surface-variant">
+                                European data protection regulation compliance with privacy by design principles.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-32 bg-neutral-950 relative overflow-hidden">
+            <div class="absolute inset-0 blueprint-grid opacity-10"></div>
+            <div class="container mx-auto px-8 relative z-10 text-center">
+                <div class="max-w-3xl mx-auto space-y-8">
+                    <h2 class="text-5xl md:text-7xl font-black tracking-tighter">READY TO <span class="text-primary-container">SECURE?</span></h2>
+                    <p class="text-xl text-on-surface-variant leading-relaxed">
+                        Let's implement enterprise-grade security architecture for your systems.
+                    </p>
+                    <div class="pt-8">
+                        <button class="bg-primary-container text-black px-12 py-5 rounded-lg font-black text-lg uppercase tracking-widest transition-all hover:scale-105 hover:shadow-[0_0_50px_rgba(0,245,255,0.4)]" onclick="window.location.href='login.html'">
+                            START SECURITY AUDIT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-12 border-t border-neutral-900 bg-neutral-950">
+        <div class="flex flex-col md:flex-row justify-between items-center px-8 w-full max-w-[1920px] mx-auto">
+            <div class="font-mono text-[10px] text-neutral-500 uppercase tracking-widest mb-4 md:mb-0">
+                © 2024 SYSTEM ANATOMY // ARCHITECTURAL PRECISION
+            </div>
+            <div class="flex gap-8 font-mono text-[10px] text-neutral-500 uppercase tracking-widest">
+                <a class="hover:text-neutral-300 transition-all opacity-80 hover:opacity-100" href="privacy.html">Privacy Protocol</a>
+                <a class="hover:text-neutral-300 transition-all opacity-80 hover:opacity-100" href="security-audit.html">Security Audit</a>
+                <a class="hover:text-neutral-300 transition-all opacity-80 hover:opacity-100" href="api-docs.html">API Documentation</a>
+            </div>
+            <div class="flex items-center space-x-4 mt-6 md:mt-0">
+                <span class="material-symbols-outlined text-neutral-600 hover:text-cyan-400 cursor-pointer" data-icon="terminal">terminal</span>
+                <span class="material-symbols-outlined text-neutral-600 hover:text-cyan-400 cursor-pointer" data-icon="lan">lan</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

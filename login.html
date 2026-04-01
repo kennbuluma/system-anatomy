@@ -94,6 +94,235 @@
             background: rgba(28, 27, 27, 0.8);
         }
     </style>
+    <script>
+        // Authentication Workflow Implementation
+        class AuthWorkflow {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupSSOButtons();
+                this.setupEmailForm();
+                this.checkAuthState();
+            }
+
+            setupSSOButtons() {
+                // Google Workspace SSO
+                const googleBtn = document.querySelector('button:has(img[alt="Google"])');
+                if (googleBtn) {
+                    googleBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.handleGoogleSSO();
+                    });
+                }
+
+                // Microsoft Entra SSO
+                const microsoftBtn = document.querySelector('button:has(.material-symbols-outlined[data-icon="grid_view"])');
+                if (microsoftBtn) {
+                    microsoftBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.handleMicrosoftSSO();
+                    });
+                }
+            }
+
+            setupEmailForm() {
+                const form = document.querySelector('form');
+                if (form) {
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const email = form.querySelector('#email').value;
+                        if (email) {
+                            this.handleEmailLink(email);
+                        }
+                    });
+                }
+            }
+
+            async handleGoogleSSO() {
+                this.showLoading('Initiating Google Workspace authentication...');
+                
+                try {
+                    // Simulate OAuth flow
+                    await this.delay(2000);
+                    
+                    // In a real implementation, this would redirect to Google OAuth
+                    // For demo purposes, we'll simulate successful authentication
+                    this.authenticateUser({
+                        provider: 'google',
+                        email: 'user@googleworkspace.com',
+                        name: 'Google User'
+                    });
+                    
+                } catch (error) {
+                    this.showError('Google authentication failed. Please try again.');
+                }
+            }
+
+            async handleMicrosoftSSO() {
+                this.showLoading('Initiating Microsoft Entra authentication...');
+                
+                try {
+                    // Simulate OAuth flow
+                    await this.delay(2000);
+                    
+                    // In a real implementation, this would redirect to Microsoft OAuth
+                    this.authenticateUser({
+                        provider: 'microsoft',
+                        email: 'user@organization.com',
+                        name: 'Microsoft User'
+                    });
+                    
+                } catch (error) {
+                    this.showError('Microsoft authentication failed. Please try again.');
+                }
+            }
+
+            async handleEmailLink(email) {
+                if (!this.isValidEmail(email)) {
+                    this.showError('Please enter a valid email address.');
+                    return;
+                }
+
+                this.showLoading('Sending secure login link...');
+                
+                try {
+                    // Simulate email sending
+                    await this.delay(3000);
+                    
+                    // Show success message
+                    this.showSuccess(`Login link sent to ${email}. Check your inbox and click the link to continue.`);
+                    
+                    // In a real implementation, this would:
+                    // 1. Send email with secure JWT token
+                    // 2. Store token temporarily on server
+                    // 3. User clicks link which validates token and logs them in
+                    
+                    // For demo, simulate clicking the link after 5 seconds
+                    setTimeout(() => {
+                        this.authenticateUser({
+                            provider: 'email',
+                            email: email,
+                            name: email.split('@')[0]
+                        });
+                    }, 5000);
+                    
+                } catch (error) {
+                    this.showError('Failed to send login link. Please try again.');
+                }
+            }
+
+            authenticateUser(userData) {
+                // Store authentication state (in production, use secure HTTP-only cookies)
+                const authData = {
+                    ...userData,
+                    authenticated: true,
+                    timestamp: Date.now(),
+                    sessionId: this.generateSessionId()
+                };
+                
+                localStorage.setItem('system_anatomy_auth', JSON.stringify(authData));
+                
+                this.showSuccess(`Welcome, ${userData.name}! Redirecting to dashboard...`);
+                
+                // Check if there's a redirect URL stored
+                const redirectUrl = sessionStorage.getItem('redirect_after_login') || 'command-center.html';
+                sessionStorage.removeItem('redirect_after_login'); // Clear it
+                
+                // Redirect to the intended page after successful authentication
+                setTimeout(() => {
+                    window.location.href = redirectUrl;
+                }, 2000);
+            }
+
+            checkAuthState() {
+                const authData = localStorage.getItem('system_anatomy_auth');
+                if (authData) {
+                    const user = JSON.parse(authData);
+                    // Check if session is still valid (24 hours)
+                    if (Date.now() - user.timestamp < 24 * 60 * 60 * 1000) {
+                        // User is already authenticated, redirect to dashboard
+                        window.location.href = 'command-center.html';
+                    } else {
+                        // Session expired, clear it
+                        localStorage.removeItem('system_anatomy_auth');
+                    }
+                }
+            }
+
+            showLoading(message) {
+                this.clearMessages();
+                const loadingDiv = document.createElement('div');
+                loadingDiv.id = 'auth-message';
+                loadingDiv.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-surface-container p-4 rounded-lg border border-primary-container/30 shadow-lg';
+                loadingDiv.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="animate-spin rounded-full h-5 w-5 border-2 border-primary-container border-t-transparent"></div>
+                        <span class="text-sm text-on-surface">${message}</span>
+                    </div>
+                `;
+                document.body.appendChild(loadingDiv);
+            }
+
+            showSuccess(message) {
+                this.clearMessages();
+                const successDiv = document.createElement('div');
+                successDiv.id = 'auth-message';
+                successDiv.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-900/20 p-4 rounded-lg border border-green-400/30 shadow-lg';
+                successDiv.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-green-400">check_circle</span>
+                        <span class="text-sm text-green-100">${message}</span>
+                    </div>
+                `;
+                document.body.appendChild(successDiv);
+                
+                setTimeout(() => this.clearMessages(), 5000);
+            }
+
+            showError(message) {
+                this.clearMessages();
+                const errorDiv = document.createElement('div');
+                errorDiv.id = 'auth-message';
+                errorDiv.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-red-900/20 p-4 rounded-lg border border-red-400/30 shadow-lg';
+                errorDiv.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-red-400">error</span>
+                        <span class="text-sm text-red-100">${message}</span>
+                    </div>
+                `;
+                document.body.appendChild(errorDiv);
+                
+                setTimeout(() => this.clearMessages(), 5000);
+            }
+
+            clearMessages() {
+                const existing = document.getElementById('auth-message');
+                if (existing) {
+                    existing.remove();
+                }
+            }
+
+            isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            generateSessionId() {
+                return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // Initialize authentication workflow when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new AuthWorkflow();
+        });
+    </script>
 </head>
 <body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col items-center justify-center overflow-hidden">
 <!-- Background Layer -->
@@ -175,9 +404,9 @@
 </div>
 <!-- Help/Meta Links -->
 <div class="mt-8 flex justify-center gap-8">
-<a class="font-label text-[10px] text-outline hover:text-primary-fixed-dim transition-colors uppercase tracking-widest" href="#">Protocol Support</a>
-<a class="font-label text-[10px] text-outline hover:text-primary-fixed-dim transition-colors uppercase tracking-widest" href="#">Privacy Audit</a>
-<a class="font-label text-[10px] text-outline hover:text-primary-fixed-dim transition-colors uppercase tracking-widest" href="#">Legal Schematic</a>
+<a class="font-label text-[10px] text-outline hover:text-primary-fixed-dim transition-colors uppercase tracking-widest" href="methodology.html">Protocol Support</a>
+<a class="font-label text-[10px] text-outline hover:text-primary-fixed-dim transition-colors uppercase tracking-widest" href="privacy.html">Privacy Audit</a>
+<a class="font-label text-[10px] text-outline hover:text-primary-fixed-dim transition-colors uppercase tracking-widest" href="terms.html">Legal Schematic</a>
 </div>
 </main>
 <!-- Page Footer (Minimalist) -->
