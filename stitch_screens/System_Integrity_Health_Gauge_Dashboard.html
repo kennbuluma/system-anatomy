@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0e0e;
+            background-image: 
+                linear-gradient(to right, rgba(58, 73, 74, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(58, 73, 74, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .gauge-segment {
+            transition: all 0.3s ease;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface": "#e5e2e1",
+              "on-surface-variant": "#b9caca",
+              "on-primary-fixed-variant": "#004f53",
+              "on-background": "#e5e2e1",
+              "surface-dim": "#131313",
+              "on-tertiary-container": "#736000",
+              "on-primary-fixed": "#002021",
+              "surface-container-lowest": "#0e0e0e",
+              "secondary-fixed": "#d8e3fb",
+              "secondary-container": "#3e495d",
+              "on-tertiary-fixed-variant": "#544600",
+              "error": "#ffb4ab",
+              "surface-tint": "#00dce5",
+              "on-secondary-container": "#aeb9d0",
+              "surface-container-high": "#2a2a2a",
+              "tertiary": "#fff9f0",
+              "surface-container": "#201f1f",
+              "surface-bright": "#393939",
+              "tertiary-fixed": "#ffe16c",
+              "on-error-container": "#ffdad6",
+              "surface": "#131313",
+              "on-primary-container": "#006c71",
+              "primary-fixed-dim": "#00dce5",
+              "on-tertiary": "#3a3000",
+              "outline-variant": "#3a494a",
+              "surface-container-highest": "#353534",
+              "secondary-fixed-dim": "#bcc7de",
+              "on-tertiary-fixed": "#221b00",
+              "primary-container": "#00f5ff",
+              "tertiary-fixed-dim": "#e7c427",
+              "surface-variant": "#353534",
+              "on-secondary-fixed": "#111c2d",
+              "on-secondary": "#263143",
+              "background": "#131313",
+              "surface-container-low": "#1c1b1b",
+              "on-primary": "#003739",
+              "inverse-surface": "#e5e2e1",
+              "secondary": "#bcc7de",
+              "outline": "#849495",
+              "on-error": "#690005",
+              "inverse-on-surface": "#313030",
+              "inverse-primary": "#00696e",
+              "on-secondary-fixed-variant": "#3c475a",
+              "primary-fixed": "#63f7ff",
+              "primary": "#e9feff",
+              "error-container": "#93000a",
+              "tertiary-container": "#ffdb3f"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"],
+              "mono": ["JetBrains Mono"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="text-on-surface bg-surface-container-lowest min-h-screen flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 left-0 top-0 fixed bg-[#0e0e0e] flex flex-col border-r border-[#3a494a]/20 z-50">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-8 h-8 bg-primary-container rounded-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" data-icon="shield_with_heart" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+</div>
+<div>
+<h1 class="font-bold text-[#00f5ff] font-mono text-xs tracking-widest uppercase">INTEGRITY</h1>
+<p class="text-[10px] text-secondary/40 font-mono tracking-tighter">V.4.0.2-ALPHA</p>
+</div>
+</div>
+<nav class="space-y-1">
+<!-- Active Tab: Integrity -->
+<a class="flex items-center gap-3 px-4 py-3 bg-[#1c1b1b] text-[#00f5ff] border-l-4 border-[#00f5ff] font-['JetBrains_Mono'] text-xs uppercase tracking-widest transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="shield_with_heart" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+                    Integrity
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#bcc7de] hover:bg-[#1c1b1b]/50 font-['JetBrains_Mono'] text-xs uppercase tracking-widest transition-all hover:text-[#00f5ff]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="hub">hub</span>
+                    Neural Map
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#bcc7de] hover:bg-[#1c1b1b]/50 font-['JetBrains_Mono'] text-xs uppercase tracking-widest transition-all hover:text-[#00f5ff]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="account_balance">account_balance</span>
+                    Ledger
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#bcc7de] hover:bg-[#1c1b1b]/50 font-['JetBrains_Mono'] text-xs uppercase tracking-widest transition-all hover:text-[#00f5ff]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="fingerprint">fingerprint</span>
+                    Auth Flow
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#bcc7de] hover:bg-[#1c1b1b]/50 font-['JetBrains_Mono'] text-xs uppercase tracking-widest transition-all hover:text-[#00f5ff]" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="query_stats">query_stats</span>
+                    Biometrics
+                </a>
+</nav>
+</div>
+<div class="mt-auto p-8 space-y-4">
+<button class="w-full py-3 bg-surface-container-highest border border-outline-variant/20 text-[#00f5ff] font-mono text-[10px] tracking-widest uppercase hover:bg-primary-container hover:text-on-primary transition-all">
+                RUN DIAGNOSTIC
+            </button>
+<div class="pt-4 border-t border-outline-variant/10 space-y-2">
+<a class="flex items-center gap-3 text-[#bcc7de] font-mono text-[10px] uppercase tracking-widest hover:text-[#00f5ff]" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="menu_book">menu_book</span>
+                    Docs
+                </a>
+<a class="flex items-center gap-3 text-[#bcc7de] font-mono text-[10px] uppercase tracking-widest hover:text-[#00f5ff]" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="support_agent">support_agent</span>
+                    Support
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 flex-1 min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-40 bg-[#131313] font-['Inter'] font-medium tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black tracking-tighter text-[#00f5ff] uppercase">SYSTEM ANATOMY</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-[#00f5ff] border-b-2 border-[#00f5ff] pb-1" href="#">Diagnostics</a>
+<a class="text-[#bcc7de] opacity-70 hover:text-[#00f5ff] transition-colors duration-200" href="#">Logs</a>
+<a class="text-[#bcc7de] opacity-70 hover:text-[#00f5ff] transition-colors duration-200" href="#">Security</a>
+<a class="text-[#bcc7de] opacity-70 hover:text-[#00f5ff] transition-colors duration-200" href="#">Clusters</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-[#bcc7de] cursor-pointer hover:text-[#00f5ff]" data-icon="notifications_active">notifications_active</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-primary-container rounded-full"></span>
+</div>
+<span class="material-symbols-outlined text-[#bcc7de] cursor-pointer hover:text-[#00f5ff]" data-icon="settings">settings</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="Lead Architect Profile" data-alt="portrait of a focused professional male software architect in a dark tech environment with subtle cyan rim lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo6ND9kixNsNKao6q8shpDo4WO5lvcvt7K79Qdh2JABddsZ3mwym0yXU_R2BpEbh9CLhsTzAWz1E4ZZXG57KVPP4NmTqIVazxlw7nVSr9tuB3iybkyo1hyzNIJUmYfm9hlSBNjiKWc1scqAJDHQb4kBB8oOqT9wmnlP5W7ZpgqUrBpZMzCDXp71y7c9T7ddq2NsffDAeRwMcE9KucUoFqGDfIGRWo2I0QoOHEATU0ckGjWbGVwVg_BAlsRGlrE9PCn71orr7DYzag"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="flex-1 p-8 overflow-y-auto">
+<!-- Header Section -->
+<div class="mb-12 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-black tracking-tighter mb-2 text-on-surface">SYSTEM INTEGRITY<span class="text-primary-container">.</span></h2>
+<p class="font-mono text-xs uppercase tracking-widest text-secondary opacity-60">Real-time architectural health monitor</p>
+</div>
+<div class="text-right">
+<div class="font-mono text-2xl font-bold text-primary-container">0.0042<span class="text-xs ml-1 opacity-50">ms</span></div>
+<div class="font-mono text-[10px] uppercase tracking-[0.2em] text-secondary opacity-60">Global Synchronization Offset</div>
+</div>
+</div>
+<!-- Central Visualization Area -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- Left Details -->
+<div class="lg:col-span-3 space-y-12">
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="font-mono text-[10px] uppercase tracking-widest text-secondary">Auth API Latency</span>
+<span class="font-mono text-xs text-primary-container">98.4%</span>
+</div>
+<div class="h-px bg-outline-variant/20 w-full relative">
+<div class="absolute inset-y-0 left-0 bg-primary-container w-[98.4%]"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed opacity-60">Secure handshake protocols operating within peak theoretical efficiency parameters.</p>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="font-mono text-[10px] uppercase tracking-widest text-secondary">Transaction Atomicity</span>
+<span class="font-mono text-xs text-primary-container">100%</span>
+</div>
+<div class="h-px bg-outline-variant/20 w-full relative">
+<div class="absolute inset-y-0 left-0 bg-primary-container w-full"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed opacity-60">ACID compliance verified across all distributed shard clusters.</p>
+</div>
+</div>
+<!-- Central Segmented Gauge -->
+<div class="lg:col-span-6 flex justify-center py-12">
+<div class="relative w-80 h-80 flex items-center justify-center">
+<!-- Background Circles -->
+<div class="absolute inset-0 rounded-full border border-outline-variant/10"></div>
+<div class="absolute inset-8 rounded-full border border-outline-variant/5"></div>
+<!-- SVG Gauge -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Auth API Latency Segment (Emerald) -->
+<circle class="gauge-segment opacity-90" cx="50" cy="50" fill="transparent" r="45" stroke="#00f5ff" stroke-dasharray="69 214" stroke-dashoffset="0" stroke-width="4"></circle>
+<!-- Transaction Atomicity Segment (Emerald) -->
+<circle class="gauge-segment opacity-90" cx="50" cy="50" fill="transparent" r="45" stroke="#00dce5" stroke-dasharray="69 214" stroke-dashoffset="-71.25" stroke-width="4"></circle>
+<!-- Ledger Consistency Segment (Soft Amber) -->
+<circle class="gauge-segment opacity-70" cx="50" cy="50" fill="transparent" r="45" stroke="#e7c427" stroke-dasharray="69 214" stroke-dashoffset="-142.5" stroke-width="4"></circle>
+<!-- Biometric Response Segment (Emerald) -->
+<circle class="gauge-segment opacity-90" cx="50" cy="50" fill="transparent" r="45" stroke="#63f7ff" stroke-dasharray="69 214" stroke-dashoffset="-213.75" stroke-width="4"></circle>
+</svg>
+<!-- Central Core -->
+<div class="absolute inset-20 rounded-full bg-surface-container-low flex flex-col items-center justify-center border border-outline-variant/20 shadow-2xl">
+<span class="font-mono text-[10px] uppercase tracking-[0.3em] text-secondary opacity-50 mb-1">Status</span>
+<span class="text-3xl font-black tracking-tighter text-on-surface">NOMINAL</span>
+<div class="mt-2 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-mono text-[9px] text-primary-container">LIVE_FEED</span>
+</div>
+</div>
+<!-- Technical Callouts (Lines & Text) -->
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 flex flex-col items-center">
+<div class="w-px h-8 bg-primary-container/40"></div>
+<span class="font-mono text-[9px] font-bold text-primary-container mt-1">98.4% AUTH</span>
+</div>
+<div class="absolute top-1/2 -right-4 translate-y-1/2 flex items-center">
+<span class="font-mono text-[9px] font-bold text-primary-container mr-1">100% TXN</span>
+<div class="w-8 h-px bg-primary-container/40"></div>
+</div>
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center">
+<span class="font-mono text-[9px] font-bold text-tertiary-fixed-dim mb-1">82.1% LDGR</span>
+<div class="w-px h-8 text-tertiary-fixed-dim/40 bg-tertiary-fixed-dim/40"></div>
+</div>
+<div class="absolute top-1/2 -left-4 -translate-y-1/2 flex items-center">
+<div class="w-8 h-px bg-primary-container/40"></div>
+<span class="font-mono text-[9px] font-bold text-primary-container ml-1">94.9% BIOM</span>
+</div>
+</div>
+</div>
+<!-- Right Details -->
+<div class="lg:col-span-3 space-y-12">
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="font-mono text-[10px] uppercase tracking-widest text-secondary">Ledger Consistency</span>
+<span class="font-mono text-xs text-tertiary-fixed-dim">82.1%</span>
+</div>
+<div class="h-px bg-outline-variant/20 w-full relative">
+<div class="absolute inset-y-0 left-0 bg-tertiary-fixed-dim w-[82.1%]"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed opacity-60">Minor indexing delay detected in Region-4 archival nodes. Auto-reconciliation active.</p>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="font-mono text-[10px] uppercase tracking-widest text-secondary">Biometric Response</span>
+<span class="font-mono text-xs text-primary-container">94.9%</span>
+</div>
+<div class="h-px bg-outline-variant/20 w-full relative">
+<div class="absolute inset-y-0 left-0 bg-primary-container w-[94.9%]"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed opacity-60">Neural pattern matching latency optimized. Multi-factor entropy stable.</p>
+</div>
+</div>
+</div>
+<!-- Bottom Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+<!-- Data Point 1 -->
+<div class="bg-surface-container-low p-6 border-l-2 border-primary-container/30">
+<div class="flex items-start justify-between mb-4">
+<span class="font-mono text-[10px] uppercase tracking-widest text-secondary opacity-60">Uptime Metric</span>
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="timer">timer</span>
+</div>
+<div class="text-2xl font-black font-headline">99.9997<span class="text-xs font-mono font-normal opacity-40 ml-1">%</span></div>
+<p class="text-[10px] font-mono text-secondary-fixed-dim mt-2 tracking-tight">CONTINUOUS OPERATION SCALE</p>
+</div>
+<!-- Data Point 2 -->
+<div class="bg-surface-container-low p-6 border-l-2 border-outline-variant/30">
+<div class="flex items-start justify-between mb-4">
+<span class="font-mono text-[10px] uppercase tracking-widest text-secondary opacity-60">Neural Load</span>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="psychology">psychology</span>
+</div>
+<div class="text-2xl font-black font-headline">42.8<span class="text-xs font-mono font-normal opacity-40 ml-1">tflops</span></div>
+<p class="text-[10px] font-mono text-secondary-fixed-dim mt-2 tracking-tight">ACTIVE INFERENCE CAPACITY</p>
+</div>
+<!-- Data Point 3 -->
+<div class="bg-surface-container-low p-6 border-l-2 border-outline-variant/30">
+<div class="flex items-start justify-between mb-4">
+<span class="font-mono text-[10px] uppercase tracking-widest text-secondary opacity-60">Security Events</span>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="security">security</span>
+</div>
+<div class="text-2xl font-black font-headline">0<span class="text-xs font-mono font-normal opacity-40 ml-1">incidents</span></div>
+<p class="text-[10px] font-mono text-secondary-fixed-dim mt-2 tracking-tight">LAST 24H SCAN CYCLE</p>
+</div>
+</div>
+<!-- Active Process Log (Asymmetric) -->
+<div class="mt-12 bg-surface-container-low/50 border border-outline-variant/10 rounded-lg p-8">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-mono text-xs uppercase tracking-[0.4em] text-secondary">Integrity Event Stream</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-[9px] font-mono text-secondary">ACTIVE</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+<span class="text-[9px] font-mono text-secondary">QUEUED</span>
+</div>
+</div>
+</div>
+<div class="space-y-4 font-mono text-[10px]">
+<div class="flex gap-6 items-center text-primary-container py-2 border-b border-outline-variant/5">
+<span class="opacity-50">[ 14:22:01 ]</span>
+<span class="w-24">SHARD_SYNC</span>
+<span class="flex-1 opacity-80">Synchronizing cryptographic state across transatlantic clusters...</span>
+<span class="font-bold">COMPLETE</span>
+</div>
+<div class="flex gap-6 items-center text-secondary-fixed-dim py-2 border-b border-outline-variant/5">
+<span class="opacity-50">[ 14:21:55 ]</span>
+<span class="w-24">AUTH_ROTATION</span>
+<span class="flex-1 opacity-80">Rotating ephemeral session keys for high-clearance access nodes.</span>
+<span class="font-bold">NOMINAL</span>
+</div>
+<div class="flex gap-6 items-center text-tertiary-fixed-dim py-2 border-b border-outline-variant/5">
+<span class="opacity-50">[ 14:21:30 ]</span>
+<span class="w-24">LEDGER_ARCH</span>
+<span class="flex-1 opacity-80">Initiating archival compression on secondary ledger shards (R4).</span>
+<span class="font-bold">IN_PROGRESS</span>
+</div>
+<div class="flex gap-6 items-center text-secondary-fixed-dim py-2">
+<span class="opacity-50">[ 14:20:42 ]</span>
+<span class="w-24">SYSTEM_PING</span>
+<span class="flex-1 opacity-80">Full ecosystem heartbeat check. Latency within acceptable bounds.</span>
+<span class="font-bold">OPTIMAL</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Technical Background Decoration (Asymmetric) -->
+<div class="fixed top-0 right-0 w-1/3 h-screen opacity-[0.03] pointer-events-none overflow-hidden select-none">
+<div class="absolute top-20 right-20 transform rotate-12">
+<svg height="400" viewbox="0 0 100 100" width="400">
+<circle cx="50" cy="50" fill="none" r="40" stroke="currentColor" stroke-dasharray="2 2" stroke-width="0.5"></circle>
+<rect fill="none" height="60" stroke="currentColor" stroke-width="0.5" width="60" x="20" y="20"></rect>
+<line stroke="currentColor" stroke-width="0.2" x1="0" x2="100" y1="50" y2="50"></line>
+<line stroke="currentColor" stroke-width="0.2" x1="50" x2="50" y1="0" y2="100"></line>
+</svg>
+</div>
+<div class="absolute bottom-40 right-10 font-mono text-[8px] leading-relaxed">
+            SYSTEM_INTEGRITY_MANIFEST_V.4<br/>
+            ARCHITECTURE: DISTRIBUTED_NEURAL_MESH<br/>
+            SECURITY_LEVEL: OMEGA_CLASS<br/>
+            ENCRYPTION: 4096_BIT_POST_QUANTUM<br/>
+            CLUSTER_REGION: GLOBAL_EDGE_CORE
+        </div>
+</div>
+</body></html>
