@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, Plus, Settings, User, Activity, Terminal, ArrowLeft, Trash2, Cpu, BarChart3 } from 'lucide-react';
 import { Message, ChatSession } from '../types';
-import { generateChatResponseStream } from '../services/geminiService';
+import { generateChatResponseStream, FALLBACK_OPTIONS, FALLBACK_RESPONSES } from '../services/geminiService';
 
 interface ChatInterfaceProps {
   onBack: () => void;
@@ -15,6 +15,7 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isFallbackMode, setIsFallbackMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const currentSession = sessions.find(s => s.id === currentSessionId);
@@ -106,7 +107,28 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
       
       let fullContent = '';
       for await (const chunk of stream) {
+        // Detect fallback mode
+        if (chunk === '___FALLBACK_MODE___') {
+          setIsFallbackMode(true);
+          fullContent = 'BACKEND UNAVAILABLE - PREDEFINED OPTIONS AVAILABLE';
+          break;
+        }
         fullContent += chunk;
+        setSessions(prev => prev.map(s => {
+          if (s.id === currentSessionId) {
+            return {
+              ...s,
+              messages: s.messages.map(m => 
+                m.id === assistantMessageId ? { ...m, content: fullContent } : m
+              )
+            };
+          }
+          return s;
+        }));
+      }
+
+      // Set final message if in fallback mode
+      if (fullContent === 'BACKEND UNAVAILABLE - PREDEFINED OPTIONS AVAILABLE') {
         setSessions(prev => prev.map(s => {
           if (s.id === currentSessionId) {
             return {
@@ -126,6 +148,35 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
     }
   };
 
+  const handlePredefinedOption = async (option: typeof FALLBACK_OPTIONS[0]) => {
+    const responseContent = FALLBACK_RESPONSES[option.title];
+    
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: option.title,
+      timestamp: Date.now(),
+    };
+
+    const assistantMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      role: 'assistant',
+      content: responseContent,
+      timestamp: Date.now() + 100,
+    };
+
+    setSessions(prev => prev.map(s => {
+      if (s.id === currentSessionId) {
+        return {
+          ...s,
+          messages: [...s.messages, userMessage, assistantMessage],
+          title: s.title === 'New System Audit' ? option.title.slice(0, 30) : s.title
+        };
+      }
+      return s;
+    }));
+  };
+
   const deleteSession = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     const updated = sessions.filter(s => s.id !== id);
@@ -136,28 +187,28 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
   };
 
   return (
-    <div className="flex h-screen bg-[#0a0a0a] text-[#e0e0e0] overflow-hidden font-mono">
+    <div className="flex h-screen bg-white text-black overflow-hidden font-mono">
       {/* Sidebar */}
       <motion.div 
         initial={{ x: -300 }}
         animate={{ x: 0 }}
-        className="w-72 border-r border-[#ffffff10] flex flex-col bg-[#0a0a0a] z-20"
+        className="w-72 border-r border-[#d5d5d5] flex flex-col bg-white z-20"
       >
         <div className="p-6 flex items-center justify-between">
           <div className="flex items-center gap-2 font-bold text-lg tracking-tighter">
-            <Activity className="w-5 h-5 text-[#00ff00]" />
+            <Activity className="w-5 h-5 text-black" />
             <span className="uppercase">Anatomy</span>
           </div>
-          <button onClick={onBack} className="p-2 hover:bg-[#ffffff05] rounded-full transition-colors">
+          <button onClick={onBack} className="p-2 hover:bg-[#f5f5f5] rounded-full transition-colors">
             <ArrowLeft className="w-4 h-4 opacity-40" />
           </button>
         </div>
 
         <button 
           onClick={createNewSession}
-          className="mx-4 mb-6 flex items-center justify-center gap-2 p-3 border border-[#00ff0030] rounded-none hover:bg-[#00ff0005] transition-all group"
+          className="mx-4 mb-6 flex items-center justify-center gap-2 p-3 border border-[#0000001a] rounded-none hover:bg-[#f4f4f4] transition-all"
         >
-          <Plus className="w-4 h-4 text-[#00ff00]" />
+          <Plus className="w-4 h-4 text-black" />
           <span className="text-[10px] font-bold uppercase tracking-widest">New Audit</span>
         </button>
 
@@ -167,7 +218,7 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
               key={session.id}
               onClick={() => setCurrentSessionId(session.id)}
               className={`group flex items-center justify-between p-3 border ${
-                currentSessionId === session.id ? 'bg-[#00ff0005] border-[#00ff0050]' : 'border-transparent hover:border-[#ffffff10]'
+                currentSessionId === session.id ? 'bg-[#f7f7f7] border-[#d5d5d5]' : 'border-transparent hover:border-[#d5d5d5]'
               } cursor-pointer transition-all`}
             >
               <div className="flex flex-col min-w-0">
@@ -186,8 +237,8 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
           ))}
         </div>
 
-        <div className="p-6 border-t border-[#ffffff10] flex items-center gap-3">
-          <div className="w-8 h-8 border border-[#ffffff20] flex items-center justify-center">
+        <div className="p-6 border-t border-[#d5d5d5] flex items-center gap-3">
+          <div className="w-8 h-8 border border-[#e5e5e5] flex items-center justify-center">
             <User className="w-4 h-4 opacity-50" />
           </div>
           <div className="flex-1">
@@ -200,10 +251,6 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col relative">
-        {/* Technical Grid Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.02]" 
-             style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-
         {!currentSessionId ? (
           <div className="flex-1 flex flex-col items-center justify-center p-6 text-center z-10">
             <motion.div 
@@ -211,16 +258,16 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
               animate={{ opacity: 1 }}
               className="max-w-md"
             >
-              <div className="w-16 h-16 border border-[#00ff0030] flex items-center justify-center mx-auto mb-6">
-                <Terminal className="w-8 h-8 text-[#00ff00]" />
+              <div className="w-16 h-16 border border-[#0000001a] flex items-center justify-center mx-auto mb-6">
+                <Terminal className="w-8 h-8 text-black" />
               </div>
               <h2 className="text-2xl font-bold uppercase tracking-tighter mb-4">System Anatomy Audit</h2>
-              <p className="text-[#e0e0e060] text-xs leading-relaxed mb-8 uppercase tracking-wider">
+              <p className="text-[#4d4d4d] text-xs leading-relaxed mb-8 uppercase tracking-wider">
                 Describe your system architecture, bottlenecks, or failures for a preliminary technical assessment.
               </p>
               <button 
                 onClick={createNewSession}
-                className="px-8 py-3 bg-[#00ff00] text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#00cc00] transition-all"
+                className="px-8 py-3 bg-black text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1a1a1a] transition-all"
               >
                 Initialize Protocol
               </button>
@@ -229,9 +276,9 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
         ) : (
           <>
             {/* Chat Header */}
-            <div className="h-16 border-b border-[#ffffff10] flex items-center px-8 justify-between z-10 bg-[#0a0a0a90] backdrop-blur-md">
+            <div className="h-16 border-b border-[#d5d5d5] flex items-center px-8 justify-between z-10 bg-[#0a0a0a90] backdrop-blur-md">
               <div className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-[#00ff00] animate-pulse" />
+                <div className="w-1.5 h-1.5 bg-black animate-pulse" />
                 <h3 className="text-[10px] font-bold uppercase tracking-widest">{currentSession.title}</h3>
               </div>
               <div className="flex items-center gap-6 opacity-30 text-[9px] uppercase tracking-[0.3em]">
@@ -258,22 +305,22 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
                   >
                     <div className={`max-w-[85%] flex gap-6 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                       <div className={`w-8 h-8 border flex items-center justify-center flex-shrink-0 ${
-                        message.role === 'user' ? 'border-[#ffffff20]' : 'border-[#00ff0030] text-[#00ff00]'
+                        message.role === 'user' ? 'border-[#e5e5e5]' : 'border-[#0000001a] text-black'
                       }`}>
                         {message.role === 'user' ? <User className="w-4 h-4 opacity-50" /> : <Activity className="w-4 h-4" />}
                       </div>
                       <div className={`flex flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
                         <div className={`p-5 border ${
                           message.role === 'user' 
-                            ? 'bg-[#ffffff03] border-[#ffffff10] text-[#e0e0e0]' 
-                            : 'bg-transparent border-transparent text-[#e0e0e0] text-sm leading-relaxed'
+                            ? 'bg-[#f7f7f7] border-[#d5d5d5] text-black' 
+                            : 'bg-transparent border-transparent text-black text-sm leading-relaxed'
                         }`}>
                           <div className="whitespace-pre-wrap">
                             {message.content || (isTyping && index === currentSession.messages.length - 1 ? (
                               <div className="flex gap-1">
-                                <div className="w-1 h-1 bg-[#00ff00] animate-pulse" />
-                                <div className="w-1 h-1 bg-[#00ff00] animate-pulse [animation-delay:0.2s]" />
-                                <div className="w-1 h-1 bg-[#00ff00] animate-pulse [animation-delay:0.4s]" />
+                                <div className="w-1 h-1 bg-black animate-pulse" />
+                                <div className="w-1 h-1 bg-black animate-pulse [animation-delay:0.2s]" />
+                                <div className="w-1 h-1 bg-black animate-pulse [animation-delay:0.4s]" />
                               </div>
                             ) : message.content)}
                           </div>
@@ -286,6 +333,32 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
                   </motion.div>
                 ))}
               </AnimatePresence>
+              
+              {/* Predefined Options Display */}
+              {isFallbackMode && currentSession.messages.some(m => m.content === 'BACKEND UNAVAILABLE - PREDEFINED OPTIONS AVAILABLE') && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-8 w-full"
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-wider mb-4 opacity-60">Select an Analysis Option:</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-5xl">
+                    {FALLBACK_OPTIONS.map((option) => (
+                      <motion.button
+                        key={option.title}
+                        onClick={() => handlePredefinedOption(option)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="p-4 border border-[#d5d5d5] bg-[#f7f7f7] hover:bg-[#efefef] text-left transition-all rounded-none h-full"
+                      >
+                        <h4 className="text-[11px] font-bold uppercase tracking-tight mb-2 leading-tight line-clamp-2">{option.title}</h4>
+                        <p className="text-[9px] opacity-60 leading-relaxed line-clamp-2">{option.description}</p>
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+              
               <div ref={messagesEndRef} />
             </div>
 
@@ -302,7 +375,7 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
                     }
                   }}
                   placeholder="INPUT SYSTEM DATA OR QUERY..."
-                  className="w-full bg-[#ffffff03] border border-[#ffffff10] rounded-none p-5 pr-16 focus:outline-none focus:border-[#00ff0050] transition-all resize-none min-h-[60px] max-h-[200px] custom-scrollbar text-xs uppercase tracking-wider"
+                  className="w-full bg-[#f7f7f7] border border-[#d5d5d5] rounded-none p-5 pr-16 focus:outline-none focus:border-[#00000033] transition-all resize-none min-h-[60px] max-h-[200px] custom-scrollbar text-xs uppercase tracking-wider"
                   rows={1}
                 />
                 <button 
@@ -310,8 +383,8 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
                   disabled={!input.trim() || isTyping}
                   className={`absolute right-4 bottom-4 p-2 transition-all ${
                     input.trim() && !isTyping 
-                      ? 'text-[#00ff00] opacity-100' 
-                      : 'text-white opacity-10 cursor-not-allowed'
+                      ? 'text-black opacity-100' 
+                      : 'text-black opacity-10 cursor-not-allowed'
                   }`}
                 >
                   <Send className="w-4 h-4" />
@@ -338,7 +411,7 @@ export default function ChatInterface({ onBack, preloadPrompt, onClearPreloadPro
           background: #ffffff10;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #00ff0030;
+          background: #00000030;
         }
       `}</style>
     </div>

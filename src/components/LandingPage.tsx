@@ -27,9 +27,10 @@ import {
 interface LandingPageProps {
   onStart: () => void;
   onSetPreloadPrompt?: (prompt: string) => void;
+  onGoToAuth: () => void;
 }
 
-export default function LandingPage({ onStart, onSetPreloadPrompt }: LandingPageProps) {
+export default function LandingPage({ onStart, onSetPreloadPrompt, onGoToAuth }: LandingPageProps) {
   // Navigation active tab tracking
   const [activeSection, setActiveSection] = useState('hero');
   
@@ -225,54 +226,57 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#f5f5f5] font-sans selection:bg-[#00ff00] selection:text-black overflow-x-hidden relative">
+    <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white overflow-x-hidden relative">
       
-      {/* Visual Ambient Background Matrix */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.02]" 
-           style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_100%_0%,rgba(0,255,0,0.03)_0%,transparent_50%)]" />
+      {/* Decorative backgrounds removed for a clean, simple layout */}
 
       {/* FIXED TOP HEADER & TELEMETRY */}
-      <nav className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-6 md:px-12 z-50 border-b border-[#1b1b1b] bg-[#0a0a0aee] backdrop-blur-md">
+      <nav className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-6 md:px-12 z-50 border-b border-[#d1d1d1] bg-white/95 backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <div className="w-2 h-2 bg-[#00ff00] animate-pulse rounded-full" />
-          <span className="font-mono text-sm font-bold tracking-[0.25em] uppercase text-white">
-            systemanatomy<span className="text-[#00ff00]">.dev</span>
+          <div className="w-2 h-2 bg-black animate-pulse rounded-full" />
+          <span className="font-mono text-sm font-bold tracking-[0.25em] uppercase text-black">
+            systemanatomy<span className="text-black">.dev</span>
           </span>
-          <span className="hidden lg:inline-block font-mono text-[9px] px-2 py-0.5 border border-[#ffffff10] bg-[#ffffff05] rounded text-[#808080]">
+          <span className="hidden lg:inline-block font-mono text-[9px] px-2 py-0.5 border border-[#d5d5d5] bg-[#f5f5f5] rounded text-[#4d4d4d]">
             NODE: L_GW_04
           </span>
         </div>
         
         {/* Navigation Shards */}
-        <div className="hidden md:flex items-center gap-8 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#808080]">
-          <a href="#anatomy" className="hover:text-white hover:underline transition-all underline-offset-4">01. Anatomy Specs</a>
-          <a href="#specimens" className="hover:text-white hover:underline transition-all underline-offset-4">02. Specimens</a>
-          <a href="#architect" className="hover:text-white hover:underline transition-all underline-offset-4">03. Credentials</a>
-          <a href="#triage" className="hover:text-white hover:underline transition-all underline-offset-4">04. Consultation</a>
+        <div className="hidden md:flex items-center gap-8 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#4d4d4d]">
+          <a href="#anatomy" className="hover:text-black hover:underline transition-all underline-offset-4">01. Anatomy Specs</a>
+          <a href="#specimens" className="hover:text-black hover:underline transition-all underline-offset-4">02. Specimens</a>
+          <a href="#architect" className="hover:text-black hover:underline transition-all underline-offset-4">03. Credentials</a>
+          <a href="#triage" className="hover:text-black hover:underline transition-all underline-offset-4">04. Consultation</a>
         </div>
 
         <button 
           onClick={onStart}
-          className="px-4 py-2 border border-[#00ff0050] text-[#00ff00] font-mono text-[10px] uppercase font-bold tracking-widest bg-transparent hover:bg-[#00ff000a] active:bg-[#00ff001c] transition-all cursor-pointer"
+          className="px-4 py-2 border border-[#00000033] text-black font-mono text-[10px] uppercase font-bold tracking-widest bg-transparent hover:bg-[#f2f2f2] active:bg-[#e8e8e8] transition-all cursor-pointer"
         >
           [ ANALYZER PORTAL ]
+        </button>
+        <button
+          onClick={onGoToAuth}
+          className="px-4 py-2 border border-[#00000033] text-black font-mono text-[10px] uppercase font-bold tracking-widest bg-transparent hover:bg-[#f2f2f2] active:bg-[#e8e8e8] transition-all cursor-pointer"
+        >
+          [ AUDIT DASHBOARD ]
         </button>
       </nav>
 
       {/* SYSTEM TELEMETRY STRIP - Beneath Navbar */}
-      <div className="pt-16 border-b border-[#111] bg-[#0d0d0d] relative z-40">
-        <div className="max-w-7xl mx-auto px-6 py-2.5 flex flex-wrap justify-between items-center gap-4 text-xs text-[#808080] font-mono">
+      <div className="pt-16 border-b border-[#dcdcdc] bg-[#f7f7f7] relative z-40">
+        <div className="max-w-7xl mx-auto px-6 py-2.5 flex flex-wrap justify-between items-center gap-4 text-xs text-[#4d4d4d] font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-[#00ff00] rounded-full animate-ping" />
+            <span className="w-1.5 h-1.5 bg-black rounded-full animate-ping" />
             <span className="uppercase text-[9px] tracking-wider text-[#a3a3a3]">Live Diagnostic Stream</span>
           </div>
           <div className="flex flex-wrap items-center gap-6 lg:gap-10 text-[10px]">
-            <div>API DELAY: <span className="text-white font-bold">{telemetry.responseTimeMs}ms</span></div>
-            <div>CONN LIMITS: <span className="text-white font-bold">{telemetry.dbConnections}/512</span></div>
-            <div>CACHE EXPLOIT: <span className="text-white font-bold">{telemetry.cacheHitRate}%</span></div>
-            <div>SYS CORE TEMP: <span className="text-[#00ff00] font-bold">{telemetry.cpuUsage}% LOAD</span></div>
-            <div className="hidden sm:block">DIAGNOSTIC HIERARCHY: <span className="text-white">NOMINAL_RESTORE_ACTIVE</span></div>
+            <div>API DELAY: <span className="text-black font-bold">{telemetry.responseTimeMs}ms</span></div>
+            <div>CONN LIMITS: <span className="text-black font-bold">{telemetry.dbConnections}/512</span></div>
+            <div>CACHE EXPLOIT: <span className="text-black font-bold">{telemetry.cacheHitRate}%</span></div>
+            <div>SYS CORE TEMP: <span className="text-black font-bold">{telemetry.cpuUsage}% LOAD</span></div>
+            <div className="hidden sm:block">DIAGNOSTIC HIERARCHY: <span className="text-black">NOMINAL_RESTORE_ACTIVE</span></div>
           </div>
         </div>
       </div>
@@ -283,18 +287,18 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
           
           {/* Hero Credentials copy */}
           <div className="lg:col-span-7 space-y-8">
-            <div className="inline-flex items-center gap-2 px-3  border border-[#ffffff10] bg-[#ffffff02] font-mono text-[9px] uppercase tracking-[0.25em] text-[#00ff00] py-1.5 rounded-none">
+            <div className="inline-flex items-center gap-2 px-3  border border-[#d5d5d5] bg-[#f7f7f7] font-mono text-[9px] uppercase tracking-[0.25em] text-black py-1.5 rounded-none">
               <Terminal className="w-3.5 h-3.5 animate-pulse" />
               <span>PRINCIPAL SYSTEMS AUDITOR & FRACTIONAL CTO</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.9] text-white uppercase">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.9] text-black uppercase">
               Eliminating <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-neutral-200 to-[#00ff00]">Architectural</span> <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-black via-[#4d4d4d] to-black">Architectural</span> <br />
               Entropy.
             </h1>
 
-            <p className="text-neutral-400 text-sm md:text-base leading-relaxed max-w-xl font-sans">
+            <p className="text-[#4d4d4d] text-sm md:text-base leading-relaxed max-w-xl font-sans">
               Precision engineering and Fractional CTO services for scaling startups and FinTech enterprises. We dissect bottleneck constraints, construct highly redundant system blueprints, and build strictly backend database foundations that do not fail under scale.
             </p>
 
@@ -302,58 +306,56 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4 font-mono">
               <a 
                 href="#triage"
-                className="px-8 py-4 bg-[#00ff00] text-black text-[11px] font-bold uppercase tracking-widest hover:bg-[#00dd00] active:bg-[#00bb00] transition-colors flex items-center justify-center gap-3 text-center"
+                className="px-8 py-4 bg-black text-white text-[11px] font-bold uppercase tracking-widest hover:bg-[#111111] active:bg-[#222222] transition-colors flex items-center justify-center gap-3 text-center"
               >
                 <span>Request a 30-Minute Architecture Triage</span>
                 <ArrowRight className="w-4 h-4 text-black" />
               </a>
               <a 
                 href="#anatomy"
-                className="px-8 py-4 border border-[#333] hover:border-[#666] bg-[#ffffff02] text-white text-[10px] font-bold uppercase tracking-widest transition-all text-center"
+                className="px-8 py-4 border border-[#cccccc] hover:border-[#666] bg-[#f7f7f7] text-black text-[10px] font-bold uppercase tracking-widest transition-all text-center"
               >
                 View Methodology
               </a>
             </div>
 
             {/* Quick trust metric badges */}
-            <div className="grid grid-cols-3 gap-4 pt-8 border-t border-[#161616] max-w-lg font-mono text-[10px]">
+            <div className="grid grid-cols-3 gap-4 pt-8 border-t border-[#e0e0e0] max-w-lg font-mono text-[10px]">
               <div>
-                <p className="text-[#808080] uppercase tracking-wider mb-1">Scale Threshold</p>
-                <p className="text-white font-bold text-sm">12.5M DAILY REQS</p>
+                <p className="text-[#4d4d4d] uppercase tracking-wider mb-1">Scale Threshold</p>
+                <p className="text-black font-bold text-sm">12.5M DAILY REQS</p>
               </div>
               <div>
-                <p className="text-[#808080] uppercase tracking-wider mb-1">Track Record</p>
-                <p className="text-white font-bold text-sm">8+ YEARS LEADERSHIP</p>
+                <p className="text-[#4d4d4d] uppercase tracking-wider mb-1">Track Record</p>
+                <p className="text-black font-bold text-sm">8+ YEARS LEADERSHIP</p>
               </div>
               <div>
-                <p className="text-[#808080] uppercase tracking-wider mb-1">Focused Shards</p>
-                <p className="text-[#00ff00] font-bold text-sm">FINTECH / HIGH-CONCURRENCY</p>
+                <p className="text-[#4d4d4d] uppercase tracking-wider mb-1">Focused Shards</p>
+                <p className="text-black font-bold text-sm">FINTECH / HIGH-CONCURRENCY</p>
               </div>
             </div>
           </div>
 
           {/* Interactive Live Target Architecture Map (Visual Component) */}
           <div className="lg:col-span-5 relative mt-6 lg:mt-0">
-            <div className="border border-[#1f1f1f] bg-[#0d0d0d] p-6 relative overflow-hidden group rounded-none">
+            <div className="border border-[#d8d8d8] bg-[#f7f7f7] p-6 relative overflow-hidden group rounded-none">
               
               {/* Monospace decorative grid indicators */}
-              <div className="absolute top-2 right-3 font-mono text-[8px] opacity-25 text-neutral-400">
+              <div className="absolute top-2 right-3 font-mono text-[8px] opacity-25 text-[#4d4d4d]">
                 MODULE: NODE_DIAG_MAP_X402
               </div>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="w-3 h-3 border border-[#333] flex items-center justify-center bg-[#ffffff05]">
-                  <Layers className="w-2 h-2 text-[#00ff00]" />
+                <div className="w-3 h-3 border border-[#cccccc] flex items-center justify-center bg-[#f5f5f5]">
+                  <Layers className="w-2 h-2 text-black" />
                 </div>
-                <h3 className="font-mono text-[10px] font-bold text-neutral-300 uppercase tracking-widest">
+                <h3 className="font-mono text-[10px] font-bold text-[#5a5a5a] uppercase tracking-widest">
                   Live System Node Diagnostics
                 </h3>
               </div>
 
               {/* Interactive SVG Node Diagram representing physical servers */}
-              <div className="relative h-64 bg-black border border-[#161616]/80 flex items-center justify-center p-4">
-                <div className="absolute inset-0 opacity-[0.03]" 
-                     style={{ backgroundImage: 'radial-gradient(#ffffff 1.5px, transparent 1.5px)', backgroundSize: '24px 24px' }} />
+              <div className="relative h-64 bg-[#f3f3f3] border border-[#d8d8d8] flex items-center justify-center p-4">
                 
                 {/* Visual Connector cables using styled SVGs */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
@@ -361,13 +363,13 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                   <path d="M 50 130 L 150 190" stroke="#222" strokeWidth="1.5" />
                   <path d="M 150 70 L 250 130" stroke="#222" strokeWidth="1.5" />
                   <path d="M 150 190 L 250 130" stroke="#222" strokeWidth="1.5" />
-                  <path d="M 250 130 L 350 130" stroke="#00ff00" strokeWidth="1.5" className="animate-pulse" />
+                  <path d="M 250 130 L 350 130" stroke="#000000" strokeWidth="1.5" />
                   
                   {/* Dynamic packet transfer animations */}
-                  <circle r="3" fill="#00ff00" style={{ transformBox: 'fill-box' }}>
+                  <circle r="3" fill="#000000" style={{ transformBox: 'fill-box' }}>
                     <animateMotion dur="4s" repeatCount="Infinity" path="M 150 70 L 250 130" />
                   </circle>
-                  <circle r="2.5" fill="#e11d48" style={{ transformBox: 'fill-box' }}>
+                  <circle r="2.5" fill="#444444" style={{ transformBox: 'fill-box' }}>
                     <animateMotion dur="2.5s" repeatCount="Infinity" path="M 250 130 L 320 130" />
                   </circle>
                 </svg>
@@ -381,8 +383,8 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                       onClick={() => setSelectedNode('load_balancer')} 
                       className={`px-2 py-1.5 border text-[9px] font-mono transition-all ${
                         selectedNode === 'load_balancer' 
-                          ? 'border-[#00ff00] text-[#00ff00] bg-[#00ff0005]' 
-                          : 'border-[#222] text-[#808080] hover:border-white'
+                          ? 'border-black text-black bg-[#f4f4f4]' 
+                          : 'border-[#d8d8d8] text-[#4d4d4d] hover:border-white'
                       }`}
                     >
                       [ L_BAL ]
@@ -392,8 +394,8 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                       onClick={() => setSelectedNode('api_gateway')} 
                       className={`px-2 py-1.5 border text-[9px] font-mono transition-all ${
                         selectedNode === 'api_gateway' 
-                          ? 'border-[#00ff00] text-[#00ff00] bg-[#00ff0005]' 
-                          : 'border-[#222] text-[#808080] hover:border-white'
+                          ? 'border-black text-black bg-[#f4f4f4]' 
+                          : 'border-[#d8d8d8] text-[#4d4d4d] hover:border-white'
                       }`}
                     >
                       [ API_GW ]
@@ -406,8 +408,8 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                       onClick={() => setSelectedNode('redis_replica')} 
                       className={`px-2 py-1.5 border text-[9px] font-mono transition-all ${
                         selectedNode === 'redis_replica' 
-                          ? 'border-[#00ff00] text-[#00ff00] bg-[#00ff0005]' 
-                          : 'border-[#222] text-[#808080] hover:border-white'
+                          ? 'border-black text-black bg-[#f4f4f4]' 
+                          : 'border-[#d8d8d8] text-[#4d4d4d] hover:border-white'
                       }`}
                     >
                       [ REDIS_CACHE ]
@@ -420,8 +422,8 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                       onClick={() => setSelectedNode('db_master')} 
                       className={`px-2 py-1.5 border text-[9px] font-mono transition-all relative ${
                         selectedNode === 'db_master' 
-                          ? 'border-red-500 text-red-400 bg-red-900/10' 
-                          : 'border-red-900 text-red-800 hover:border-red-500'
+                          ? 'border-[#808080] text-[#4d4d4d] bg-[#f4f4f4]' 
+                          : 'border-[#d8d8d8] text-[#4d4d4d] hover:border-[#808080]'
                       }`}
                     >
                       <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-ping" />
@@ -432,8 +434,8 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                       onClick={() => setSelectedNode('worker_pool')} 
                       className={`px-2 py-1.5 border text-[9px] font-mono transition-all ${
                         selectedNode === 'worker_pool' 
-                          ? 'border-[#00ff00] text-[#00ff00] bg-[#00ff0005]' 
-                          : 'border-[#222] text-[#808080] hover:border-white'
+                          ? 'border-black text-black bg-[#f4f4f4]' 
+                          : 'border-[#d8d8d8] text-[#4d4d4d] hover:border-white'
                       }`}
                     >
                       [ WORKER_QUE ]
@@ -444,23 +446,23 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
               </div>
 
               {/* Dynamic Readout of Clicked Node */}
-              <div className="mt-4 p-4 border border-[#1b1b1b] bg-[#070707] font-mono rounded-none">
-                <div className="flex justify-between items-center border-b border-[#1b1b1b] pb-2 mb-2">
-                  <span className="text-[10px] text-white font-bold uppercase">
+              <div className="mt-4 p-4 border border-[#d1d1d1] bg-[#f3f3f3] font-mono rounded-none">
+                <div className="flex justify-between items-center border-b border-[#d1d1d1] pb-2 mb-2">
+                  <span className="text-[10px] text-black font-bold uppercase">
                     {nodes[selectedNode].label}
                   </span>
                   <span className={`text-[9px] px-1.5 py-0.5 font-bold ${
                     nodes[selectedNode].status.includes('DEGRADED') 
-                      ? 'bg-red-500/10 text-red-400 border border-red-900' 
-                      : 'bg-[#00ff00]/10 text-[#00ff00] border border-[#00ff00]/30'
+                      ? 'bg-[#f4f4f4] text-[#4d4d4d] border border-[#d8d8d8]' 
+                      : 'bg-black/10 text-black border border-black/30'
                   }`}>
                     {nodes[selectedNode].status}
                   </span>
                 </div>
-                <p className="text-[10px] text-neutral-400 leading-relaxed mb-2 font-sans">
+                <p className="text-[10px] text-[#4d4d4d] leading-relaxed mb-2 font-sans">
                   {nodes[selectedNode].desc}
                 </p>
-                <div className="text-[9px] text-[#00ff00] flex justify-between">
+                <div className="text-[9px] text-black flex justify-between">
                   <span>METRIC_DENSITY:</span>
                   <span>{nodes[selectedNode].metric}</span>
                 </div>
@@ -478,20 +480,20 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
       </header>
 
       {/* SECTION 2: THE CORE FRAMEWORKS / SERVICES COMPONENT */}
-      <section id="anatomy" className="py-28 px-6 md:px-12 border-t border-[#161616] relative z-20">
+      <section id="anatomy" className="py-28 px-6 md:px-12 border-t border-[#e0e0e0] relative z-20">
         <div className="max-w-7xl mx-auto">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end mb-20">
             <div className="lg:col-span-8">
-              <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-[#00ff00] mb-3">
+              <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-black mb-3">
                 01 // SERVICES & BLUEPRINTS
               </h2>
-              <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-white">
+              <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-black">
                 Core Engineering Frameworks
               </h3>
             </div>
             <div className="lg:col-span-4">
-              <p className="text-xs text-neutral-400 max-w-sm leading-relaxed font-sans">
+              <p className="text-xs text-[#4d4d4d] max-w-sm leading-relaxed font-sans">
                 Our capabilities are separated neatly based on implementation intensity. We interface both with senior technologists on lock hierarchies and with founders on runway safety.
               </p>
             </div>
@@ -501,19 +503,19 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 font-mono">
             
             {/* PILLAR A: Deep-Tier Systems Anatomy (For CTOs/VPEs) */}
-            <div className="border border-[#1f1f1f] bg-[#0d0d0d] p-8 space-y-8 flex flex-col justify-between">
+            <div className="border border-[#d8d8d8] bg-[#f7f7f7] p-8 space-y-8 flex flex-col justify-between">
               <div>
-                <div className="flex justify-between items-start border-b border-[#222] pb-6 mb-6">
+                <div className="flex justify-between items-start border-b border-[#d8d8d8] pb-6 mb-6">
                   <div>
-                    <span className="text-[9px] text-[#00ff00] block mb-1">PILLAR A_STAGES</span>
-                    <h4 className="text-lg font-bold uppercase text-white tracking-widest">
+                    <span className="text-[9px] text-black block mb-1">PILLAR A_STAGES</span>
+                    <h4 className="text-lg font-bold uppercase text-black tracking-widest">
                       Deep-Tier Systems Anatomy
                     </h4>
                   </div>
-                  <Database className="w-5 h-5 text-[#00ff00]" />
+                  <Database className="w-5 h-5 text-black" />
                 </div>
                 
-                <p className="text-xs text-neutral-400 mb-8 font-sans leading-relaxed">
+                <p className="text-xs text-[#4d4d4d] mb-8 font-sans leading-relaxed">
                   Engineered exclusively for hands-on engineering directors, CTOs, and tech leaders facing physical scalability boundaries, code decay, and database thrashing.
                 </p>
 
@@ -521,31 +523,31 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                 <div className="space-y-8">
                   
                   {/* Service 1 */}
-                  <div className="p-4 border border-[#ffffff03] bg-[#070707] hover:border-[#333]/40 transition-all">
+                  <div className="p-4 border border-[#ffffff03] bg-[#f3f3f3] hover:border-[#cccccc]/40 transition-all">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-6 h-6 border border-[#222] flex items-center justify-center text-[10px] text-[#00ff00] font-bold">
+                      <div className="w-6 h-6 border border-[#d8d8d8] flex items-center justify-center text-[10px] text-black font-bold">
                         01
                       </div>
-                      <h5 className="text-xs font-bold text-white uppercase tracking-wider">
+                      <h5 className="text-xs font-bold text-black uppercase tracking-wider">
                         High-Concurrency Backend Performance
                       </h5>
                     </div>
-                    <p className="text-[11px] text-neutral-400 leading-relaxed font-sans pl-9">
+                    <p className="text-[11px] text-[#4d4d4d] leading-relaxed font-sans pl-9">
                       Low-latency optimization from the database layer upward. Deep, surgical expertise in PostgreSQL execution paths, transaction lock resolutions, connection pooling limits, and Redis caching layers for sub-millisecond authentication and session management.
                     </p>
                   </div>
 
                   {/* Service 2 */}
-                  <div className="p-4 border border-[#ffffff03] bg-[#070707] hover:border-[#333]/40 transition-all">
+                  <div className="p-4 border border-[#ffffff03] bg-[#f3f3f3] hover:border-[#cccccc]/40 transition-all">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-6 h-6 border border-[#222] flex items-center justify-center text-[10px] text-[#00ff00] font-bold">
+                      <div className="w-6 h-6 border border-[#d8d8d8] flex items-center justify-center text-[10px] text-black font-bold">
                         02
                       </div>
-                      <h5 className="text-xs font-bold text-white uppercase tracking-wider">
+                      <h5 className="text-xs font-bold text-black uppercase tracking-wider">
                         Resilient Cloud Modernization
                       </h5>
                     </div>
-                    <p className="text-[11px] text-neutral-400 leading-relaxed font-sans pl-9">
+                    <p className="text-[11px] text-[#4d4d4d] leading-relaxed font-sans pl-9">
                       Designing bulletproof cloud deployment architectures and zero-downtime release pipelines utilizing Google Cloud Platform (GCP) and Firebase. We orchestrate reliable infrastructure using Terraform, guaranteeing zero deployment drift and absolute isolation of development parameters.
                     </p>
                   </div>
@@ -553,26 +555,26 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-[#1b1b1b]/80 flex justify-between items-center text-[10px] text-neutral-500">
+              <div className="pt-4 border-t border-[#d1d1d1]/80 flex justify-between items-center text-[10px] text-neutral-500">
                 <span>AUDIT_DEPTH: LEVEL_3_DIAGNOSTICS</span>
-                <span className="text-white">CODENAME: CONCURRENCY</span>
+                <span className="text-black">CODENAME: CONCURRENCY</span>
               </div>
             </div>
 
             {/* PILLAR B: Fractional Technical Leadership (For CEOs/Founders) */}
-            <div className="border border-[#1f1f1f] bg-[#0d0d0d] p-8 space-y-8 flex flex-col justify-between">
+            <div className="border border-[#d8d8d8] bg-[#f7f7f7] p-8 space-y-8 flex flex-col justify-between">
               <div>
-                <div className="flex justify-between items-start border-b border-[#222] pb-6 mb-6">
+                <div className="flex justify-between items-start border-b border-[#d8d8d8] pb-6 mb-6">
                   <div>
-                    <span className="text-[9px] text-[#00ff00] block mb-1">PILLAR B_STAGES</span>
-                    <h4 className="text-lg font-bold uppercase text-white tracking-widest">
+                    <span className="text-[9px] text-black block mb-1">PILLAR B_STAGES</span>
+                    <h4 className="text-lg font-bold uppercase text-black tracking-widest">
                       Fractional Technical Leadership
                     </h4>
                   </div>
-                  <Server className="w-5 h-5 text-[#00ff00]" />
+                  <Server className="w-5 h-5 text-black" />
                 </div>
                 
-                <p className="text-xs text-neutral-400 mb-8 font-sans leading-relaxed">
+                <p className="text-xs text-[#4d4d4d] mb-8 font-sans leading-relaxed">
                   Tailored design for founders, executives, start-up CEOs and business leaders requiring reliable high-level tech strategy, cost audits, or scaling support.
                 </p>
 
@@ -580,31 +582,31 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                 <div className="space-y-8">
                   
                   {/* Service 3 */}
-                  <div className="p-4 border border-[#ffffff03] bg-[#070707] hover:border-[#333]/40 transition-all">
+                  <div className="p-4 border border-[#ffffff03] bg-[#f3f3f3] hover:border-[#cccccc]/40 transition-all">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-6 h-6 border border-[#222] flex items-center justify-center text-[10px] text-[#00ff00] font-bold">
+                      <div className="w-6 h-6 border border-[#d8d8d8] flex items-center justify-center text-[10px] text-black font-bold">
                         03
                       </div>
-                      <h5 className="text-xs font-bold text-white uppercase tracking-wider">
+                      <h5 className="text-xs font-bold text-black uppercase tracking-wider">
                         Architectural System Audits
                       </h5>
                     </div>
-                    <p className="text-[11px] text-neutral-400 leading-relaxed font-sans pl-9">
+                    <p className="text-[11px] text-[#4d4d4d] leading-relaxed font-sans pl-9">
                       A brutal, impartial diagnostic analysis of your current backend stack. We identify memory leaks, compute-throttled bottleneck constraints, sequential table-scan penalties, and server-side security vulnerabilities before they crash your production environment.
                     </p>
                   </div>
 
                   {/* Service 4 */}
-                  <div className="p-4 border border-[#ffffff03] bg-[#070707] hover:border-[#333]/40 transition-all">
+                  <div className="p-4 border border-[#ffffff03] bg-[#f3f3f3] hover:border-[#cccccc]/40 transition-all">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-6 h-6 border border-[#222] flex items-center justify-center text-[10px] text-[#00ff00] font-bold">
+                      <div className="w-6 h-6 border border-[#d8d8d8] flex items-center justify-center text-[10px] text-black font-bold">
                         04
                       </div>
-                      <h5 className="text-xs font-bold text-white uppercase tracking-wider">
+                      <h5 className="text-xs font-bold text-black uppercase tracking-wider">
                         Fractional CTO Advisory
                       </h5>
                     </div>
-                    <p className="text-[11px] text-neutral-400 leading-relaxed font-sans pl-9">
+                    <p className="text-[11px] text-[#4d4d4d] leading-relaxed font-sans pl-9">
                       On-demand, senior technical leadership and strategic engineering direction. We bridge the gap between your immediate business runway and your engineering team's output, vetting senior hires, optimizing hosting overhead, and preventing expensive architectural rewrites.
                     </p>
                   </div>
@@ -612,9 +614,9 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-[#1b1b1b]/80 flex justify-between items-center text-[10px] text-neutral-500">
+              <div className="pt-4 border-t border-[#d1d1d1]/80 flex justify-between items-center text-[10px] text-neutral-500">
                 <span>INTUITION_METRICS: BUSINESS_VELOCITY</span>
-                <span className="text-[#00ff00]">CODENAME: PREVENT_REWRITES</span>
+                <span className="text-black">CODENAME: PREVENT_REWRITES</span>
               </div>
             </div>
 
@@ -624,17 +626,17 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
       </section>
 
       {/* SECTION 3: PROVEN SPECIMENS / CASE STUDIES (NDA-Compliant) */}
-      <section id="specimens" className="py-28 px-6 md:px-12 border-t border-[#161616] bg-[#0d0d0d]/40 relative z-20">
+      <section id="specimens" className="py-28 px-6 md:px-12 border-t border-[#e0e0e0] bg-[#f7f7f7]/40 relative z-20">
         <div className="max-w-7xl mx-auto">
           
           <div className="mb-20">
-            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-[#00ff00] mb-3">
+            <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-black mb-3">
               02 // TRACK RECORD SPECIMENS
             </h2>
-            <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-white">
+            <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-black">
               Surgical Interventions
             </h3>
-            <p className="text-xs text-neutral-400 max-w-xl mt-4 font-sans leading-relaxed">
+            <p className="text-xs text-[#4d4d4d] max-w-xl mt-4 font-sans leading-relaxed">
               NDA and intellectual property structures forbid sharing individual internal git repositories. Instead, we analyze 3 specific, real system deconstructions demonstrating enterprise performance gains and resource restorations from current/past systems.
             </p>
           </div>
@@ -672,7 +674,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                 <div 
                   key={specimen.id}
                   className={`border transition-all ${
-                    isOpen ? 'border-[#00ff00] bg-[#0c0c0c]' : 'border-[#1b1b1b] bg-[#080808] hover:border-[#333]'
+                    isOpen ? 'border-black bg-[#f3f3f3]' : 'border-[#d1d1d1] bg-[#f3f3f3] hover:border-[#cccccc]'
                   }`}
                 >
                   <button
@@ -680,16 +682,16 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                     className="w-full text-left p-6 flex justify-between items-center gap-4 cursor-pointer"
                   >
                     <div>
-                      <span className="text-[9px] text-[#00ff00] font-mono tracking-wider block mb-1">
+                      <span className="text-[9px] text-black font-mono tracking-wider block mb-1">
                         SPECIMEN_0{specimen.id} // FOCUS: {specimen.focus}
                       </span>
-                      <h4 className="text-sm md:text-base font-bold uppercase text-white tracking-wide">
+                      <h4 className="text-sm md:text-base font-bold uppercase text-black tracking-wide">
                         {specimen.title}
                       </h4>
                     </div>
                     <div>
                       {isOpen ? (
-                        <ChevronUp className="w-5 h-5 text-[#00ff00]" />
+                        <ChevronUp className="w-5 h-5 text-black" />
                       ) : (
                         <ChevronDown className="w-5 h-5 opacity-40 hover:opacity-100 transition-opacity" />
                       )}
@@ -705,33 +707,33 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="p-6 pt-0 border-t border-[#111] space-y-4 text-xs font-sans">
+                        <div className="p-6 pt-0 border-t border-[#dcdcdc] space-y-4 text-xs font-sans">
                           {/* Problem/Intervention/Outcome Breakdown */}
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
                             
-                            <div className="space-y-2 border-l border-red-500/30 pl-4 bg-red-950/5 p-3">
-                              <span className="font-mono text-[9px] font-bold text-red-400 block tracking-wider uppercase">
+                            <div className="space-y-2 border-l border-[#808080]/30 pl-4 bg-red-950/5 p-3">
+                              <span className="font-mono text-[9px] font-bold text-[#4d4d4d] block tracking-wider uppercase">
                                 [01_IDENTIFIED_PAIN]
                               </span>
-                              <p className="text-neutral-300 leading-relaxed text-[11px]">
+                              <p className="text-[#5a5a5a] leading-relaxed text-[11px]">
                                 {specimen.problem}
                               </p>
                             </div>
 
-                            <div className="space-y-2 border-l border-[#00ff00]/30 pl-4 bg-[#00ff00]/5 p-3">
-                              <span className="font-mono text-[9px] font-bold text-[#00ff00] block tracking-wider uppercase">
+                            <div className="space-y-2 border-l border-black/30 pl-4 bg-black/5 p-3">
+                              <span className="font-mono text-[9px] font-bold text-black block tracking-wider uppercase">
                                 [02_ENGINEER_RESOLVE]
                               </span>
-                              <p className="text-neutral-300 leading-relaxed text-[11px]">
+                              <p className="text-[#5a5a5a] leading-relaxed text-[11px]">
                                 {specimen.intervention}
                               </p>
                             </div>
 
                             <div className="space-y-2 border-l border-white/20 pl-4 bg-white/[0.02] p-3">
-                              <span className="font-mono text-[9px] font-bold text-white block tracking-wider uppercase">
+                              <span className="font-mono text-[9px] font-bold text-black block tracking-wider uppercase">
                                 [03_BUSINESS_OUTCOME]
                               </span>
-                              <p className="text-white/90 font-medium leading-relaxed text-[11px]">
+                              <p className="text-black/90 font-medium leading-relaxed text-[11px]">
                                 {specimen.outcome}
                               </p>
                             </div>
@@ -754,28 +756,28 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
       </section>
 
       {/* SECTION 4: THE PEDIGREE & HUMAN TRUST (De-anonymization) */}
-      <section id="architect" className="py-28 px-6 md:px-12 border-t border-[#161616] relative overflow-hidden z-20">
+      <section id="architect" className="py-28 px-6 md:px-12 border-t border-[#e0e0e0] relative overflow-hidden z-20">
         
         {/* Subtle decorative grid backing */}
-        <div className="absolute top-[20%] right-[-10%] w-[300px] h-[300px] bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none" />
+        <div className="absolute top-[20%] right-[-10%] w-[300px] h-[300px] bg-black/5 blur-[80px] rounded-full pointer-events-none" />
 
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             
             {/* Biography Copy */}
             <div className="lg:col-span-7 space-y-6">
-              <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-[#00ff00] mb-3">
+              <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-black mb-3">
                 03 // PRINCIPAL CREDENTIALS
               </h2>
-              <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-white">
+              <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-black">
                 Engineered by Kenn Buluma
               </h3>
               
-              <p className="text-xs font-mono text-neutral-400 uppercase tracking-widest pl-2 border-l border-[#00ff00]">
+              <p className="text-xs font-mono text-[#4d4d4d] uppercase tracking-widest pl-2 border-l border-black">
                 8+ years specializing in core platform diagnostics and high-concurrency infrastructures.
               </p>
 
-              <div className="text-xs space-y-4 text-neutral-300 font-sans leading-relaxed">
+              <div className="text-xs space-y-4 text-[#5a5a5a] font-sans leading-relaxed">
                 <p>
                   I construct reliable scale mechanisms for technical founders and enterprise decision-makers. Having designed infrastructure systems handling over 12 million concurrent operations daily in past corporate tech positions, I transition this knowledge directly to scaling clients.
                 </p>
@@ -790,7 +792,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                   href="https://linkedin.com"
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-white hover:text-[#00ff00] transition-colors underline underline-offset-4 decoration-neutral-700 hover:decoration-[#00ff00]"
+                  className="flex items-center gap-2 text-black hover:text-black transition-colors underline underline-offset-4 decoration-neutral-700 hover:decoration-black"
                 >
                   <User className="w-3.5 h-3.5" />
                   <span>Verify Credentials on LinkedIn</span>
@@ -799,7 +801,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
 
                 <span className="text-[#333]">|</span>
 
-                <span className="text-[#808080]">
+                <span className="text-[#4d4d4d]">
                   GCP CERTIFIED SECURITY SPECS // AWS CORES
                 </span>
               </div>
@@ -807,29 +809,29 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
 
             {/* Interactive Terminal Widget Mock representing real-time bio diagnostics */}
             <div className="lg:col-span-5">
-              <div className="border border-[#1f1f1f] bg-[#070707] font-mono text-xs rounded-none shadow-2xl relative">
+              <div className="border border-[#d8d8d8] bg-[#f3f3f3] font-mono text-xs rounded-none shadow-2xl relative">
                 
                 {/* Header terminal controls */}
-                <div className="bg-[#0f0f0f] px-4 py-3 border-b border-[#1b1b1b] flex items-center justify-between">
+                <div className="bg-[#0f0f0f] px-4 py-3 border-b border-[#d1d1d1] flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 bg-red-500/30 rounded-full" />
                     <span className="w-2.5 h-2.5 bg-yellow-500/30 rounded-full" />
-                    <span className="w-2.5 h-2.5 bg-[#00ff00]/30 rounded-full" />
+                    <span className="w-2.5 h-2.5 bg-black/30 rounded-full" />
                   </div>
                   <span className="text-[9px] text-[#666] tracking-widest">systemanatomy_cli_v1.0.sh</span>
                   <Terminal className="w-3.5 h-3.5 text-[#555]" />
                 </div>
 
                 {/* Simulated Screen with text */}
-                <div className="p-4 h-64 overflow-y-auto space-y-2 text-[11px] text-[#00ff00]/80 scrollbar-thin scrollbar-thumb-neutral-800">
+                <div className="p-4 h-64 overflow-y-auto space-y-2 text-[11px] text-black/80 scrollbar-thin scrollbar-thumb-neutral-800">
                   {terminalHistory.map((item, index) => (
                     <div key={index} className="whitespace-pre-wrap leading-relaxed">
                       {item.type === 'input' ? (
-                        <div className="text-[#808080]">
-                          guest@systemanatomy:~$ <span className="text-white">{item.text}</span>
+                        <div className="text-[#4d4d4d]">
+                          guest@systemanatomy:~$ <span className="text-black">{item.text}</span>
                         </div>
                       ) : (
-                        <div className="text-green-400 font-mono text-[10.5px]">
+                        <div className="text-[#4d4d4d] font-mono text-[10.5px]">
                           {item.text}
                         </div>
                       )}
@@ -838,23 +840,23 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                 </div>
 
                 {/* Input handler */}
-                <form onSubmit={handleTerminalSubmit} className="border-t border-[#1b1b1b] bg-[#0a0a0a] px-4 py-3 flex items-center gap-2">
-                  <span className="text-[#808080] font-bold">guest@systemanatomy:~$</span>
+                <form onSubmit={handleTerminalSubmit} className="border-t border-[#d1d1d1] bg-white px-4 py-3 flex items-center gap-2">
+                  <span className="text-[#4d4d4d] font-bold">guest@systemanatomy:~$</span>
                   <input 
                     type="text"
                     value={terminalInput}
                     onChange={(e) => setTerminalInput(e.target.value)}
                     placeholder="Type help or ls..."
-                    className="flex-1 bg-transparent text-white border-none outline-none focus:ring-0 text-[11px] font-mono p-0"
+                    className="flex-1 bg-transparent text-black border-none outline-none focus:ring-0 text-[11px] font-mono p-0"
                   />
-                  <button type="submit" className="text-[10px] text-[#808080] hover:text-white uppercase tracking-wider">
+                  <button type="submit" className="text-[10px] text-[#4d4d4d] hover:text-black uppercase tracking-wider">
                     EXECUTE
                   </button>
                 </form>
 
               </div>
               <p className="text-[8.5px] text-[#555] font-mono text-center mt-2.5 uppercase tracking-wider">
-                Type <span className="text-neutral-400">cat bio.md</span> or <span className="text-neutral-400">cat tech.json</span> above for credential variables.
+                Type <span className="text-[#4d4d4d]">cat bio.md</span> or <span className="text-[#4d4d4d]">cat tech.json</span> above for credential variables.
               </p>
             </div>
 
@@ -863,46 +865,46 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
       </section>
 
       {/* SECTION 5: INTERACTIVE TRIAGE WIZARD & CONVERSION FUNNEL */}
-      <section id="triage" className="py-28 px-6 md:px-12 border-t border-[#161616] bg-[#0c0c0c]/80 relative z-20">
+      <section id="triage" className="py-28 px-6 md:px-12 border-t border-[#e0e0e0] bg-[#0c0c0c]/80 relative z-20">
         <div className="max-w-7xl mx-auto">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
             
             {/* Copy Side */}
             <div className="lg:col-span-5 space-y-6">
-              <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-[#00ff00] mb-3">
+              <h2 className="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-black mb-3">
                 04 // INTERACTIVE TRIAGE FUNNEL
               </h2>
-              <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-white">
+              <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter text-black">
                 Your MVP is breaking under scale. Let's build your Forever Architecture.
               </h3>
               
-              <p className="text-neutral-400 text-sm font-sans leading-relaxed">
+              <p className="text-[#4d4d4d] text-sm font-sans leading-relaxed">
                 Do not wait for database locks to result in dynamic failure vectors or security exposure. Fill out our simple on-site diagnostic matrix to calculate your system risk parameters instantly. 
               </p>
 
-              <div className="p-5 border border-[#1b1b1b] bg-[#070707] font-mono space-y-3 rounded-none">
-                <span className="text-[9px] font-bold text-[#00ff00] block tracking-wide uppercase">
+              <div className="p-5 border border-[#d1d1d1] bg-[#f3f3f3] font-mono space-y-3 rounded-none">
+                <span className="text-[9px] font-bold text-black block tracking-wide uppercase">
                   [REDUCE_CONVERSTION_FRICTION]
                 </span>
-                <p className="text-[11px] text-neutral-300 leading-relaxed font-sans">
+                <p className="text-[11px] text-[#5a5a5a] leading-relaxed font-sans">
                   No forceful enterprise pricing agreements. This diagnostic triage lets us explore one active query leak, analyze GCP configuration settings, and give real, immediate system audits before finalizing consultation agreements.
                 </p>
                 <div className="text-[10px] text-neutral-500">
-                  CODE COGNIZANCE: <span className="text-white">AUD-01 SYSTEMATIC</span>
+                  CODE COGNIZANCE: <span className="text-black">AUD-01 SYSTEMATIC</span>
                 </div>
               </div>
 
               {/* Launch Chat Prompt */}
-              <div className="pt-4 border-t border-[#161616] space-y-3">
-                <p className="font-mono text-[10px] text-neutral-400 uppercase tracking-widest">
+              <div className="pt-4 border-t border-[#e0e0e0] space-y-3">
+                <p className="font-mono text-[10px] text-[#4d4d4d] uppercase tracking-widest">
                   Prefer direct diagnostic AI audits?
                 </p>
                 <button
                   onClick={handleLaunchChatWithState}
-                  className="px-6 py-3 border border-[#333] hover:border-[#00ff00]/40 hover:bg-[#00ff00]/5 text-[10.5px] font-mono uppercase tracking-wider text-neutral-300 flex items-center gap-3 transition-colors"
+                  className="px-6 py-3 border border-[#cccccc] hover:border-black/40 hover:bg-black/5 text-[10.5px] font-mono uppercase tracking-wider text-[#5a5a5a] flex items-center gap-3 transition-colors"
                 >
-                  <MessageSquare className="w-3.5 h-3.5 text-[#00ff00]" />
+                  <MessageSquare className="w-3.5 h-3.5 text-black" />
                   <span>Interactive AI Chat Diagnosis</span>
                 </button>
               </div>
@@ -911,9 +913,9 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
 
             {/* Diagnostic Matrix Form Container */}
             <div className="lg:col-span-7">
-              <div className="border border-[#1f1f1f] bg-[#0d0d0d] p-8 space-y-8 rounded-none relative">
+              <div className="border border-[#d8d8d8] bg-[#f7f7f7] p-8 space-y-8 rounded-none relative">
                 
-                <h4 className="font-mono text-xs font-bold text-white uppercase tracking-widest border-b border-[#1b1b1b] pb-4">
+                <h4 className="font-mono text-xs font-bold text-black uppercase tracking-widest border-b border-[#d1d1d1] pb-4">
                   Architectural Estimator & Triage Dispatch
                 </h4>
 
@@ -923,11 +925,11 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
                     
                     <div className="space-y-2">
-                      <label className="text-neutral-400 uppercase">01 // CONCURRENT ACTIVE ROUTINES</label>
+                      <label className="text-[#4d4d4d] uppercase">01 // CONCURRENT ACTIVE ROUTINES</label>
                       <select 
                         value={concurrentUsers}
                         onChange={(e) => setConcurrentUsers(Number(e.target.value))}
-                        className="w-full bg-[#070707] border border-[#1f1f1f] text-white p-3 rounded-none focus:outline-none focus:border-[#00ff00]/50"
+                        className="w-full bg-[#f3f3f3] border border-[#d8d8d8] text-black p-3 rounded-none focus:outline-none focus:border-black/50"
                       >
                         <option value={500}>&lt; 500 active threads</option>
                         <option value={1200}>1,000 — 2,500 active threads</option>
@@ -937,11 +939,11 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-neutral-400 uppercase">02 // DATA DB SEED DEPTH</label>
+                      <label className="text-[#4d4d4d] uppercase">02 // DATA DB SEED DEPTH</label>
                       <select 
                         value={dbRecords}
                         onChange={(e) => setDbRecords(e.target.value)}
-                        className="w-full bg-[#070707] border border-[#1f1f1f] text-white p-3 rounded-none focus:outline-none focus:border-[#00ff00]/50"
+                        className="w-full bg-[#f3f3f3] border border-[#d8d8d8] text-black p-3 rounded-none focus:outline-none focus:border-black/50"
                       >
                         <option value=" under 5M records">Under 5 Million Rows</option>
                         <option value="10M+ rows">10 Million — 50M Rows</option>
@@ -951,7 +953,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-neutral-400 uppercase">03 // INFRASTRUCTURE ENVIRONMENT</label>
+                      <label className="text-[#4d4d4d] uppercase">03 // INFRASTRUCTURE ENVIRONMENT</label>
                       <div className="grid grid-cols-3 gap-2">
                         {['AWS', 'GCP', 'MULTI-CLOUD'].map(prov => (
                           <button
@@ -960,8 +962,8 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                             onClick={() => setCloudProvider(prov)}
                             className={`p-2 border text-[10px] text-center font-bold ${
                               cloudProvider === prov 
-                                ? 'border-[#00ff00] text-[#00ff00] bg-[#00ff0005]' 
-                                : 'border-[#1f1f1f] text-neutral-400 bg-transparent hover:border-neutral-700'
+                                ? 'border-black text-black bg-[#f4f4f4]' 
+                                : 'border-[#d8d8d8] text-[#4d4d4d] bg-transparent hover:border-neutral-700'
                             }`}
                           >
                             {prov}
@@ -971,11 +973,11 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-neutral-400 uppercase">04 // CHRONIC BOTTLENECK CONSTRAINT</label>
+                      <label className="text-[#4d4d4d] uppercase">04 // CHRONIC BOTTLENECK CONSTRAINT</label>
                       <select 
                         value={primaryBottleneck}
                         onChange={(e) => setPrimaryBottleneck(e.target.value)}
-                        className="w-full bg-[#070707] border border-[#1f1f1f] text-white p-3 rounded-none focus:outline-none focus:border-[#00ff00]/50"
+                        className="w-full bg-[#f3f3f3] border border-[#d8d8d8] text-black p-3 rounded-none focus:outline-none focus:border-black/50"
                       >
                         <option value="db_locks">PostgreSQL Row Locks / Thread Sages</option>
                         <option value="memory_leak">Memory Leaks / JVM Garbage Throttles</option>
@@ -988,7 +990,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
 
                   {/* Latency Slider */}
                   <div className="space-y-2 font-mono text-xs pt-4 border-t border-[#151515]">
-                    <div className="flex justify-between items-center text-neutral-400">
+                    <div className="flex justify-between items-center text-[#4d4d4d]">
                       <span>05 // AVERAGE API LATENCY CONGESTION</span>
                       <span className="text-[#e11d48] font-bold">{apiLatency}ms</span>
                     </div>
@@ -999,7 +1001,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                       step="50"
                       value={apiLatency}
                       onChange={(e) => setApiLatency(Number(e.target.value))}
-                      className="w-full accent-[#00ff00]"
+                      className="w-full accent-black"
                     />
                     <div className="flex justify-between text-[9px] text-[#444] font-mono">
                       <span>50ms (IDEAL_REST)</span>
@@ -1008,16 +1010,16 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                   </div>
 
                   {/* Calculated dynamic Risk Meter */}
-                  <div className="p-4 border border-[#1b1b1b] bg-[#080808] flex items-center justify-between font-mono">
+                  <div className="p-4 border border-[#d1d1d1] bg-[#f3f3f3] flex items-center justify-between font-mono">
                     <div className="space-y-1">
                       <span className="text-[10px] text-neutral-500 uppercase">COMPUTED SYSTEM ENTROPY SCORE:</span>
                       <div className="flex items-center gap-2">
                         {calculateEntropyScore() > 70 ? (
                           <AlertTriangle className="w-4 h-4 text-red-500" />
                         ) : (
-                          <CheckCircle className="w-4 h-4 text-emerald-500" />
+                          <CheckCircle className="w-4 h-4 text-black" />
                         )}
-                        <span className={`text-base font-bold ${calculateEntropyScore() > 70 ? 'text-red-400' : 'text-[#00ff00]'}`}>
+                        <span className={`text-base font-bold ${calculateEntropyScore() > 70 ? 'text-[#4d4d4d]' : 'text-black'}`}>
                           {calculateEntropyScore()}% RISK VELOCITY
                         </span>
                       </div>
@@ -1026,7 +1028,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                     <div className="text-right">
                       <span className="text-[10px] text-neutral-500 uppercase block">INTERVENTION URGENCY:</span>
                       <span className={`text-[11px] font-bold uppercase ${
-                        calculateEntropyScore() > 70 ? 'text-red-500' : 'text-neutral-300'
+                        calculateEntropyScore() > 70 ? 'text-red-500' : 'text-[#5a5a5a]'
                       }`}>
                         {calculateEntropyScore() > 70 ? 'CRITICAL_HAZARD' : 'NOMINAL_PREVENTATIVE'}
                       </span>
@@ -1043,12 +1045,12 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                           value={contactEmail}
                           onChange={(e) => setContactEmail(e.target.value)}
                           placeholder="ENTER CTO/FOUNDER WORK EMAIL..."
-                          className="flex-1 bg-[#070707] border border-[#1f1f1f] text-white p-4 text-xs font-mono rounded-none focus:outline-none focus:border-[#00ff00]/60 placeholder:text-neutral-700"
+                          className="flex-1 bg-[#f3f3f3] border border-[#d8d8d8] text-black p-4 text-xs font-mono rounded-none focus:outline-none focus:border-black/60 placeholder:text-neutral-700"
                         />
                         <button
                           type="submit"
                           disabled={triageLoading}
-                          className="px-8 py-4 bg-[#00ff00] text-black font-mono text-xs uppercase font-bold tracking-widest hover:bg-[#00dd00] transition-colors disabled:opacity-50 text-center"
+                          className="px-8 py-4 bg-black text-white font-mono text-xs uppercase font-bold tracking-widest hover:bg-[#111111] transition-colors disabled:opacity-50 text-center"
                         >
                           {triageLoading ? 'TRANSMITTING...' : 'REQUEST SYSTEM TRIAGE'}
                         </button>
@@ -1057,13 +1059,13 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                       <motion.div 
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="p-6 border border-[#00ff00]/30 bg-[#00ff00]/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                        className="p-6 border border-black/30 bg-black/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                       >
                         <div className="space-y-1">
-                          <p className="text-[#00ff00] font-mono text-xs font-bold uppercase tracking-wider">
+                          <p className="text-black font-mono text-xs font-bold uppercase tracking-wider">
                             ✓ DIAGNOSTIC REPORT TRANSMITTED SECURELY
                           </p>
-                          <p className="text-neutral-400 text-[11px] font-sans">
+                          <p className="text-[#4d4d4d] text-[11px] font-sans">
                             Kenn Buluma will analyze your computed metrics details and reach out within 1 business day.
                           </p>
                         </div>
@@ -1073,7 +1075,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                             // launch chat with preload content
                             onStart();
                           }}
-                          className="px-4 py-2 bg-[#ffffff10] hover:bg-[#ffffff20] text-white font-mono text-[9px] uppercase tracking-wider"
+                          className="px-4 py-2 bg-[#ffffff10] hover:bg-[#ffffff20] text-black font-mono text-[9px] uppercase tracking-wider"
                         >
                           OPEN DIRECT AI ASSESS
                         </button>
@@ -1091,12 +1093,12 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
       </section>
 
       {/* FOOTER */}
-      <footer className="py-20 px-6 md:px-12 border-t border-[#111] bg-[#070707] relative z-20">
+      <footer className="py-20 px-6 md:px-12 border-t border-[#dcdcdc] bg-[#f3f3f3] relative z-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 font-mono">
           
           <div className="flex items-center gap-3">
-            <div className="w-1.5 h-1.5 bg-[#00ff00] rounded-full" />
-            <span className="text-xs uppercase font-bold tracking-widest text-[#808080]">
+            <div className="w-1.5 h-1.5 bg-black rounded-full" />
+            <span className="text-xs uppercase font-bold tracking-widest text-[#4d4d4d]">
               SYSTEMANATOMY.DEV
             </span>
           </div>
@@ -1110,7 +1112,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                 href="https://kennbuluma.github.io" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-[#8e8e8e] hover:text-[#00ff00] transition-colors underline decoration-[#333]"
+                className="text-[#5a5a5a] hover:text-black transition-colors underline decoration-[#b0b0b0]"
               >
                 Founder Portfolio
               </a>
@@ -1119,7 +1121,7 @@ Hello Kenn, I am requesting a 30-Minute Architecture Triage based on these compu
                 href="https://linkedin.com"
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-[#8e8e8e] hover:text-[#00ff00] transition-colors"
+                className="text-[#5a5a5a] hover:text-black transition-colors"
               >
                 LinkedIn Authority
               </a>
